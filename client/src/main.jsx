@@ -13,6 +13,7 @@ import About from "./components/About/About.jsx";
 import ContactUs from "./components/ContactUs/ContactUs.jsx";
 import DiagnosisList from "./components/DiagnosisList/DiagnosisList.jsx";
 import DoctorList from "./components/DoctorList/DoctorList.jsx";
+import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
         path: "diagnosislist/doctorlist",
         element: <DoctorList />,
       },
+      {
+        path: "*",
+        element: <ErrorPage/>
+      }
     ],
   },
   {
