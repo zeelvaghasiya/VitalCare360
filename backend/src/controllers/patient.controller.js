@@ -40,6 +40,8 @@ const registerPatient = asyncHandler( async (req,res) => {
     }
     //console.log(req.files);
 
+    // multer provides more option in req object whenever we use:
+    // req.files
     const avatarLocalPath = req.files?.avatar[0]?.path;
 
     if (!avatarLocalPath) {
@@ -91,7 +93,7 @@ const loginPatient = asyncHandler(async (req, res) =>{
         throw new ApiError(400, "email is required")
     }
 
-    const patient = await Patient.findOne(email)
+    const patient = await Patient.findOne({email})
 
     if (!patient) {
         throw new ApiError(404, "Pateint does not exist")
@@ -107,6 +109,7 @@ const loginPatient = asyncHandler(async (req, res) =>{
 
     const loggedInPatient = await Patient.findById(patient._id).select("-password -refreshToken")
 
+    // cookie mate option set karvani jarur pade, je ak object 6
     // cookie khali server side thi j modified thay sake , frontend side only joie sakay
     const options = {
         httpOnly: true,
@@ -129,7 +132,33 @@ const loginPatient = asyncHandler(async (req, res) =>{
 
 })
 
+const logoutPatient = asyncHandler(async(req, res) => {
+    await Patient.findByIdAndUpdate(
+        req.patient._id,
+        {
+            $unset: {
+                refreshToken: 1 // this removes the field from document
+            }
+        },
+        {
+            new: true
+        }
+    )
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, {}, "Patient logged Out"))
+})
+
 export {
     registerPatient,
-    loginPatient
+    loginPatient,
+    logoutPatient
 }
