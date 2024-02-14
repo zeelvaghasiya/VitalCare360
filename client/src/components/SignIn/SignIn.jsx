@@ -66,6 +66,38 @@ function SignIn() {
                 </div>
               </div>
               <div>
+                <label
+                  htmlFor="gender"
+                  className="text-base font-medium text-gray-900"
+                >
+                  {" "}
+                  Select : Who are you ?{" "}
+                </label>
+                <div className="mt-2">
+                  <div className="flex">
+                    <div className="flex items-center">
+                      <input
+                        className="form-radio h-4 w-4 text-gray-600 border-gray-300"
+                        name="user"
+                        value="Patient"
+                        type="radio"
+                        required
+                      />
+                      <span className="ml-2 text-gray-700 mr-8">Patient</span>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        className="form-radio h-4 w-4 text-gray-600 border-gray-300"
+                        name="user"
+                        value="Doctor"
+                        type="radio"
+                      />
+                      <span className="ml-2 text-gray-700">Doctor</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
                 <button
                   type="button"
                   className="inline-flex w-full items-center justify-center rounded-md bg-blue-400 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"

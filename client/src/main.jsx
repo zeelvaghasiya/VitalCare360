@@ -14,6 +14,8 @@ import ContactUs from "./components/ContactUs/ContactUs.jsx";
 import DiagnosisList from "./components/DiagnosisList/DiagnosisList.jsx";
 import DoctorList from "./components/DoctorList/DoctorList.jsx";
 import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
+import Profile from "./components/Profile/Profile.jsx";
+import DoctorForm from "./components/DoctorForm/DoctorForm.jsx";
 
 const router = createBrowserRouter([
   {
@@ -41,9 +43,17 @@ const router = createBrowserRouter([
         element: <DoctorList />,
       },
       {
+        path: "/doctorform",
+        element: <DoctorForm/>
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
         path: "*",
         element: <ErrorPage/>
-      }
+      },
     ],
   },
   {

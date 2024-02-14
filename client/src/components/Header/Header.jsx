@@ -14,6 +14,10 @@ const menuItems = [
     href: "/about",
   },
   {
+    name: "Apply For Doctor",
+    href: "/doctorform",
+  },
+  {
     name: "Contact",
     href: "/contactus",
   },
@@ -53,6 +57,12 @@ function Header() {
             </ul>
           </div>
           <div className="hidden lg:block">
+          <Link
+              to="/profile"
+              className="mr-2 rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            >
+              Profile
+            </Link>
             <Link
               to="/signin"
               className="mr-2 rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
