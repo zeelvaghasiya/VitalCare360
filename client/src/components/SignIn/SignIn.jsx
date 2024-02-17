@@ -1,8 +1,28 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { loginPatient } from "../../features/auth/authPatient/authPatientSlice";
 
 function SignIn() {
+
+  const [loginData, setLoginData] = useState({});
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const getLoginData = (e) => {
+    setLoginData({...loginData, [e.target.name]: e.target.value})
+  }
+
+  console.log(loginData)
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginPatient(loginData))
+    navigate("/")
+  }
+
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -21,7 +41,7 @@ function SignIn() {
               Create a free account
             </Link>
           </p>
-          <form action="#" method="POST" className="mt-8">
+          <form action="#" method="POST" className="mt-8" onSubmit={handleSubmit}>
             <div className="space-y-5">
               <div>
                 <label
@@ -36,6 +56,8 @@ function SignIn() {
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="email"
                     placeholder="Email"
+                    name="email"
+                    onChange={getLoginData}
                   ></input>
                 </div>
               </div>
@@ -62,6 +84,8 @@ function SignIn() {
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="password"
                     placeholder="Password"
+                    name = "password"
+                    onChange={getLoginData}
                   ></input>
                 </div>
               </div>
@@ -82,6 +106,7 @@ function SignIn() {
                         value="Patient"
                         type="radio"
                         required
+                        onChange={getLoginData}
                       />
                       <span className="ml-2 text-gray-700 mr-8">Patient</span>
                     </div>
@@ -91,6 +116,7 @@ function SignIn() {
                         name="user"
                         value="Doctor"
                         type="radio"
+                        onChange={getLoginData}
                       />
                       <span className="ml-2 text-gray-700">Doctor</span>
                     </div>
@@ -99,7 +125,7 @@ function SignIn() {
               </div>
               <div>
                 <button
-                  type="button"
+                  type="submit"
                   className="inline-flex w-full items-center justify-center rounded-md bg-blue-400 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 >
                   Get started <ArrowRight className="ml-2" size={16} />

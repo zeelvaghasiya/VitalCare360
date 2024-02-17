@@ -4,6 +4,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { DollarSign, Filter, Menu, Moon, Star, X, Zap } from "lucide-react";
 import DoctorImg from "../../images/doctor.jpg";
+import AS from "../../images/AS.png"
+import HRM from "../../images/HRM.png"
+import DC from "../../images/DC.png"
+import AH from "../../images/AH.png"
 
 const menuItems = [
   {
@@ -41,11 +45,11 @@ function Home() {
               Revolutionizing Healthcare: Your Wellness Starts Here
             </h1>
             <p className="mt-8 max-w-3xl text-lg text-gray-700">
-              vitalCare360 is a comprehensive healthcare platform that revolutionizes
-              the way people access and experience healthcare services. we
-              offer a range of solutions designed to streamline healthcare
-              processes, improve patient outcomes, and enhance overall
-              healthcare experiences.
+              vitalCare360 is a comprehensive healthcare platform that
+              revolutionizes the way people access and experience healthcare
+              services. we offer a range of solutions designed to streamline
+              healthcare processes, improve patient outcomes, and enhance
+              overall healthcare experiences.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-6">
               <div className="w-full md:w-[350px] rounded-md border bg-gray-200">
@@ -96,68 +100,70 @@ function Home() {
         </div>
       </div>
       {/* Features Section */}
-      <div className="mx-auto my-12 max-w-7xl px-4 sm:px-6 md:my-24 lg:my-32 lg:px-8">
+      <div className="mx-auto my-8 max-w-7xl px-4 sm:px-6 md:my-8 lg:my-8 lg:px-8">
         <div className="mx-auto max-w-xl text-center">
           <div className="mx-auto inline-flex rounded-full bg-gray-100 px-4 py-1.5">
             <p className="text-xs font-semibold uppercase tracking-widest text-black">
-              100+ Tailwind Components
+              vitalCare360
             </p>
           </div>
-          <h2 className="mt-6 text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">
-            DevUI helps you build beautiful website
+          <h2 className="mt-6 text-2xl font-bold leading-tight text-black sm:text-3xl lg:text-4xl">
+            Why <span className="text-blue-400">vitalCare360</span> is the
+            Secure and Ideal Choice for Your Healthcare Scheduling Needs
           </h2>
           <p className="mt-4 text-base leading-relaxed text-gray-600">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-            sint. Velit officia consequat duis enim velit mollit.
+            vitalCare360 offers a secure and user-friendly platform tailored to
+            meet all your healthcare scheduling needs with precision and peace
+            of mind.
           </p>
         </div>
         <div className="mt-12 grid grid-cols-1 gap-y-8 text-center sm:grid-cols-2 sm:gap-12 lg:grid-cols-4">
           <div>
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
-              <DollarSign className="h-9 w-9 text-gray-700" />
+              <img className="h-12 w-12 text-gray-700" src={AS} />
             </div>
             <h3 className="mt-8 text-lg font-semibold text-black">
-              Secured Payments
+              Appointment Scheduling
             </h3>
             <p className="mt-4 text-sm text-gray-600">
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-              amet sint. Velit officia consequat duis enim velit mollit.
+              Allow patients to schedule appointments with healthcare providers
+              online.
             </p>
           </div>
           <div>
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
-              <Zap className="h-9 w-9 text-gray-700" />
+              <img className="h-12 w-12 text-gray-700" src={HRM} />
             </div>
             <h3 className="mt-8 text-lg font-semibold text-black">
-              Fast & Easy to Load
+              Health Records Management
             </h3>
             <p className="mt-4 text-sm text-gray-600">
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-              amet sint. Velit officia consequat duis enim velit mollit.
+              Provide a platform for patients to securely store and access their
+              medical records and history.
             </p>
           </div>
           <div>
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
-              <Moon className="h-9 w-9 text-gray-700" />
+              <img className="h-12 w-12 text-gray-700" src={DC} />
             </div>
             <h3 className="mt-8 text-lg font-semibold text-black">
-              Light & Dark Version
+              Healthcare Provider Profiles
             </h3>
             <p className="mt-4 text-sm text-gray-600">
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-              amet sint. Velit officia consequat duis enim velit mollit.
+              Create detailed profiles for healthcare providers, including their
+              credentials, specialties, and experience.
             </p>
           </div>
           <div>
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
-              <Filter className="h-9 w-9 text-gray-700" />
+              <img className="h-12 w-12 text-gray-700" src={AH} />
             </div>
             <h3 className="mt-8 text-lg font-semibold text-black">
-              Filter Blocks
+              Appointment History
             </h3>
             <p className="mt-4 text-sm text-gray-600">
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-              amet sint. Velit officia consequat duis enim velit mollit.
+              Maintain a record of past appointments and medical history for
+              patients and healthcare providers to reference.
             </p>
           </div>
         </div>
@@ -166,7 +172,7 @@ function Home() {
       <section className="mx-auto max-w-7xl bg-gray-50 px-2 py-10 md:px-0">
         <div>
           <div className="mx-auto max-w-2xl lg:text-center">
-            <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">
+            <h2 className="text-2xl font-bold leading-tight text-black sm:text-3xl lg:text-4xl">
               Frequently Asked Questions
             </h2>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-gray-600 lg:mx-auto">

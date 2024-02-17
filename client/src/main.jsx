@@ -1,10 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import {
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { Provider } from "react-redux";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout.jsx";
 import SignIn from "../src/components/SignIn/SignIn.jsx";
 import SignUp from "../src/components/SignUp/SignUp.jsx";
@@ -16,6 +14,7 @@ import DoctorList from "./components/DoctorList/DoctorList.jsx";
 import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
 import Profile from "./components/Profile/Profile.jsx";
 import DoctorForm from "./components/DoctorForm/DoctorForm.jsx";
+import { store } from "./app/store.js";
 
 const router = createBrowserRouter([
   {
@@ -44,7 +43,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/doctorform",
-        element: <DoctorForm/>
+        element: <DoctorForm />,
       },
       {
         path: "/profile",
@@ -52,7 +51,7 @@ const router = createBrowserRouter([
       },
       {
         path: "*",
-        element: <ErrorPage/>
+        element: <ErrorPage />,
       },
     ],
   },
@@ -63,11 +62,13 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp />,
-  }
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <Provider store={store}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </Provider>
 );

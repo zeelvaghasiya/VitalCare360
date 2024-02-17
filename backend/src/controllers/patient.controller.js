@@ -24,7 +24,7 @@ const generateAccessAndRefereshTokens = async (patientId) => {
 };
 
 const registerPatient = asyncHandler(async (req, res) => {
-  const { username, fullName, contactNumber, email, gender, password, user } =
+  const { username, fullName, contactNumber, email, gender, password, user} =
     req.body;
   // console.log("email: ", email);
 
@@ -44,10 +44,11 @@ const registerPatient = asyncHandler(async (req, res) => {
     if (existedPatient) {
       throw new ApiError(409, "Patient with email or username already exists");
     }
-    //console.log(req.files);
+    
 
     // multer provides more option in req object whenever we use:
     // req.files
+
     const avatarLocalPath = req.files?.avatar[0]?.path;
 
     if (!avatarLocalPath) {
@@ -136,6 +137,7 @@ const loginPatient = asyncHandler(async (req, res) => {
     // cookie mate option set karvani jarur pade, je ak object 6
     // cookie khali server side thi j modified thay sake , frontend side only joie sakay
     const options = {
+      sameSite: 'None',
       httpOnly: true,
       secure: true,
     };
@@ -172,6 +174,7 @@ const logoutPatient = asyncHandler(async (req, res) => {
   );
 
   const options = {
+    sameSite: 'None',
     httpOnly: true,
     secure: true,
   };
@@ -232,4 +235,15 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerPatient, loginPatient, logoutPatient, refreshAccessToken };
+const getCurrentUser = asyncHandler(async(req, res) => {
+
+  return res
+  .status(200)
+  .json(new ApiResponse(
+      200,
+      req.patient,
+      "User fetched successfully"
+  ))
+})
+
+export { registerPatient, loginPatient, logoutPatient, refreshAccessToken, getCurrentUser };

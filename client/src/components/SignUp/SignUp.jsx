@@ -1,8 +1,32 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { createPatient } from "../../features/auth/authPatient/authPatientSlice.js";
 
 function SignUp() {
+  const [userData, setUserData] = useState({});
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const getUserData = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+
+  const handlePhoto = (e) => {
+    // console.log("avatar ...",e.target.files[0])
+    setUserData({ ...userData, avatar: e.target.files[0] })
+  };
+
+  console.log("userData", userData);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("users...", userData);
+    dispatch(createPatient(userData));
+    navigate("/signin");
+  };
+
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -21,7 +45,7 @@ function SignUp() {
               Sign In
             </Link>
           </p>
-          <form action="#" method="POST" className="mt-8">
+          <form onSubmit={handleSubmit} method="POST" className="mt-8" encType='multipart/form-data'>
             <div className="space-y-5">
               <div>
                 <label
@@ -39,6 +63,7 @@ function SignUp() {
                     id="fullName"
                     required
                     name="fullName"
+                    onChange={getUserData}
                   ></input>
                 </div>
               </div>
@@ -58,6 +83,7 @@ function SignUp() {
                     id="username"
                     required
                     name="username"
+                    onChange={getUserData}
                   ></input>
                 </div>
               </div>
@@ -77,6 +103,7 @@ function SignUp() {
                     id="email"
                     required
                     name="email"
+                    onChange={getUserData}
                   ></input>
                 </div>
               </div>
@@ -96,6 +123,7 @@ function SignUp() {
                     id="avatar"
                     required
                     name="avatar"
+                    onChange={handlePhoto}
                   ></input>
                 </div>
               </div>
@@ -115,6 +143,7 @@ function SignUp() {
                     id="contactNumber"
                     required
                     name="contactNumber"
+                    onChange={getUserData}
                   ></input>
                 </div>
               </div>
@@ -134,6 +163,7 @@ function SignUp() {
                       value="Male"
                       type="radio"
                       required
+                      onChange={getUserData}
                     />
                     <span className="ml-2 text-gray-700 mr-8">Male</span>
                   </div>
@@ -143,6 +173,7 @@ function SignUp() {
                       name="gender"
                       value="Female"
                       type="radio"
+                      onChange={getUserData}
                     />
                     <span className="ml-2 text-gray-700">Female</span>
                   </div>
@@ -166,6 +197,7 @@ function SignUp() {
                     id="password"
                     required
                     name="password"
+                    onChange={getUserData}
                   ></input>
                 </div>
               </div>
@@ -186,6 +218,7 @@ function SignUp() {
                         value="Patient"
                         type="radio"
                         required
+                        onChange={getUserData}
                       />
                       <span className="ml-2 text-gray-700 mr-8">Patient</span>
                     </div>
@@ -195,6 +228,7 @@ function SignUp() {
                         name="user"
                         value="Doctor"
                         type="radio"
+                        onChange={getUserData}
                       />
                       <span className="ml-2 text-gray-700">Doctor</span>
                     </div>
@@ -203,7 +237,7 @@ function SignUp() {
               </div>
               <div>
                 <button
-                  type="button"
+                  type="submit"
                   className="inline-flex w-full items-center justify-center rounded-md bg-blue-400 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 >
                   Create Account <ArrowRight className="ml-2" size={16} />

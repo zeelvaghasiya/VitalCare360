@@ -1,8 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutPatient } from "../../features/auth/authPatient/authPatientSlice";
+import { resetStore } from "../../features/auth/userPatient/userPatientSlice";
 
 const menuItems = [
   {
@@ -24,11 +27,23 @@ const menuItems = [
 ];
 
 function Header() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const handleLogout = () => {
+    dispatch(resetStore());
+    dispatch(logoutPatient());
+    navigate("/");
+
+  };
+  
+  const userToken = localStorage.getItem("userToken");
 
   return (
     <div className="w-full">
@@ -36,7 +51,9 @@ function Header() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2">
           <div className="inline-flex items-center space-x-2">
             {/* // add logo here */}
-            <span className="font-bold text-3xl text-blue-400">vitalCare360</span>
+            <span className="font-bold text-3xl text-blue-400">
+              vitalCare360
+            </span>
           </div>
           <div className="hidden lg:block">
             <ul className="inline-flex space-x-8">
@@ -57,24 +74,36 @@ function Header() {
             </ul>
           </div>
           <div className="hidden lg:block">
-          <Link
-              to="/profile"
-              className="mr-2 rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-            >
-              Profile
-            </Link>
-            <Link
-              to="/signin"
-              className="mr-2 rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/signup"
-              className="rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-            >
-              Sign Up
-            </Link>
+            {userToken ? (
+              <>
+                <Link
+                  to="/profile"
+                  className="mr-2 rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                >
+                  Profile
+                </Link>
+                <button onClick={handleLogout}>
+                  <span className="rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+                    Logout
+                  </span>
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/signin"
+                  className="mr-2 rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="mr-2 rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
           <div className="lg:hidden">
             <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
@@ -99,7 +128,9 @@ function Header() {
                           />
                         </svg>
                       </span>
-                      <span className="font-bold text-3xl text-blue-400">DevUI</span>
+                      <span className="font-bold text-3xl text-blue-400">
+                        DevUI
+                      </span>
                     </div>
                     <div className="-mr-2">
                       <button
@@ -118,10 +149,10 @@ function Header() {
                         <NavLink
                           key={item.name}
                           to={item.href}
-                          className={({isActive}) => {
+                          className={({ isActive }) => {
                             `-m-1 flex items-center rounded-md p-3 font-semibold hover:bg-gray-50 ${
-                        isActive ? "text-blue-400" : "text-black"
-                      }`
+                              isActive ? "text-blue-400" : "text-black"
+                            }`;
                           }}
                         >
                           <span className="ml-3 text-lg font-medium text-gray-900">
@@ -131,18 +162,38 @@ function Header() {
                       ))}
                     </nav>
                   </div>
-                  <button
-                    type="button"
-                    className="my-2 w-full rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                  >
-                    <Link to="/signin">Sign In</Link>
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                  >
-                    <Link to="signup">Sign Up</Link>
-                  </button>
+                  {userToken ? (
+                    <div>
+                      <button
+                        type="button"
+                        className="my-2 w-full rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                      >
+                        <Link to="/profile">Profile</Link>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="w-full rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                      >
+                        <Link to="/">Logout</Link>
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <button
+                        type="button"
+                        className="my-2 w-full rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                      >
+                        <Link to="/signin">Sign In</Link>
+                      </button>
+                      <button
+                        type="button"
+                        className="mb-2 w-full rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                      >
+                        <Link to="/signup">Sign Up</Link>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
