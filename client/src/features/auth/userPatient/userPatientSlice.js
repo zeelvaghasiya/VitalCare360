@@ -1,12 +1,28 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+
+// fetch user information
 export const userInfo = createAsyncThunk(
   "userInfo",
   async (args, { rejectWithValue }) => {
     try {
       const response = await axios.get("/api/v1/patients/current-user");
       console.log("response data in profile", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// update user information
+export const updateUserInfo = createAsyncThunk(
+  "updateUserInfo",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.put("/api/v1/patients/update-user-info",data);
+      console.log("updated user info", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -43,6 +59,17 @@ export const userPatient = createSlice({
         state.error = action.payload;
         state.user = {}
         // console.log("e",typeof(action.payload.response.status))
+      })
+      .addCase(updateUserInfo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateUserInfo.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateUserInfo.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

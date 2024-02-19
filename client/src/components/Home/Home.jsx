@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { DollarSign, Filter, Menu, Moon, Star, X, Zap } from "lucide-react";
 import DoctorImg from "../../images/doctor.jpg";
 import AS from "../../images/AS.png"
 import HRM from "../../images/HRM.png"

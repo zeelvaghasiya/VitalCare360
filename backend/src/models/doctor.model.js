@@ -42,7 +42,7 @@ const doctorSchema = new Schema(
       {
         type: String,
         required: true,
-        trim: true,
+        enum: ["General Physician","Skin and Hair","Women's Health","Dental Care","Child's Specialist","Physiotherapist","Eye Specialist","Heart"]
       },
     ],
     eduQualification: [

@@ -37,16 +37,20 @@ const patientSchema = new Schema(
     },
     DOB: {
       type: Date,
+      default: Date.now()
     },
     bloodGroup: {
       type: String,
       enum: ["A+", "B+", "AB+", "O+", "A-", "B-", "AB-", "O-"],
+      default: "A+"
     },
     height: {
       type: Number,
+      default: 0
     },
     weight: {
       type: Number,
+      default: 0
     },
     avatar: {
       type: String, // cloudinary url

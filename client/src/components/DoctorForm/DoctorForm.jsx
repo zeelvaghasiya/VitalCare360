@@ -140,7 +140,7 @@ function DoctorForm() {
                   ></input>
                 </div>
               </div>
-              <div>
+              {/* <div>
                 <label
                   htmlFor="speciality"
                   className="text-base font-medium text-gray-900"
@@ -158,7 +158,36 @@ function DoctorForm() {
                     name="speciality"
                   ></input>
                 </div>
+              </div> */}
+              <div>
+                <label
+                  htmlFor="speciality"
+                  className="text-base font-medium text-gray-900"
+                >
+                  Speciality
+                </label>
+                <div className="mt-2">
+                  <select
+                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                    id="speciality"
+                    required
+                    name="speciality"
+                  >
+                    <option value="" disabled selected hidden>
+                      Choose a Speciality
+                    </option>
+                    <option value="GeneralPhysician">General Physician</option>
+                    <option value="SkinAndHair">Skin and Hair</option>
+                    <option value="WomenHealth">Women's Health</option>
+                    <option value="DentalCare">Dental Care</option>
+                    <option value="ChildSpecialist">Child's Specialist</option>
+                    <option value="Physiotherapist">Physiotherapist</option>
+                    <option value="EyeSpecialist">Eye Specialist</option>
+                    <option value="Heart">Heart</option>
+                  </select>
+                </div>
               </div>
+
               <div>
                 <label
                   htmlFor="eduQualification"

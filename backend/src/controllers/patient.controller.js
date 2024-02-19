@@ -246,4 +246,31 @@ const getCurrentUser = asyncHandler(async(req, res) => {
   ))
 })
 
-export { registerPatient, loginPatient, logoutPatient, refreshAccessToken, getCurrentUser };
+const updatePatientDetails = asyncHandler(async(req, res) => {
+  const {username, fullName, contactNumber, email, gender, DOB, bloodGroup, height, weight} = req.body
+
+  const user = await Patient.findByIdAndUpdate(
+      req.patient?._id,
+      {
+          $set: {
+            username,
+            fullName,
+            contactNumber,
+            email,
+            gender,
+            DOB,
+            bloodGroup,
+            height,
+            weight
+          }
+      },
+      {new: true}
+      
+  ).select("-password")
+
+  return res
+  .status(200)
+  .json(new ApiResponse(200, user, "Account details updated successfully"))
+});
+
+export { registerPatient, loginPatient, logoutPatient, refreshAccessToken, getCurrentUser, updatePatientDetails};
