@@ -5,7 +5,8 @@ import {
   logoutPatient,
   refreshAccessToken,
   getCurrentUser,
-  updatePatientDetails
+  updatePatientDetails,
+  addAllergy
 } from "../controllers/patient.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -29,5 +30,6 @@ router.route("/logout").post(verifyJWT, logoutPatient);
 router.route("/refresh-token").post(refreshAccessToken)
 router.route("/current-user").get(verifyJWT, getCurrentUser)
 router.route("/update-user-info").put(verifyJWT, updatePatientDetails)
+router.route("/add-allergy").patch(verifyJWT, addAllergy)
 
 export default router;

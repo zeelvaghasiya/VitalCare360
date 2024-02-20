@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import DC from "../../images/DC.png";
 import { format } from "date-fns";
+import Allergis from "../Allergis/Allergis.jsx";
 
 function Profile() {
   const [patientData, setPatientData] = useState({});
@@ -249,9 +250,24 @@ function Profile() {
                   </form>
                 </div>
 
+                <hr className="my-6" />
+                <div className="max-w-90 m-2">
+                  <div>
+                    <h2 className="text-center text-lg font-semibold leading-tight text-black sm:text-xl lg:text-2xl lg:leading-tight">Allergis</h2>
+                  </div>
+                  <Allergis />
+                </div>
                 <hr className="my-4" />
-                <div className="max-w-90 border-red-700 border-2 h-28">
-                  div3
+                <div className="max-w-90 border-blue-700 border-2 h-28">
+                  chronicDisease
+                </div>
+                <hr className="my-4" />
+                <div className="max-w-90 border-yellow-700 border-2 h-28">
+                  injuries
+                </div>
+                <hr className="my-4" />
+                <div className="max-w-90 border-green-700 border-2 h-28">
+                  surgeries
                 </div>
                 <hr className="my-4" />
               </div>

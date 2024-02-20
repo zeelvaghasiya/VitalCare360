@@ -273,4 +273,21 @@ const updatePatientDetails = asyncHandler(async(req, res) => {
   .json(new ApiResponse(200, user, "Account details updated successfully"))
 });
 
-export { registerPatient, loginPatient, logoutPatient, refreshAccessToken, getCurrentUser, updatePatientDetails};
+const addAllergy = asyncHandler(async(req, res) => {
+  const {allergy} = req.body;
+
+  if(allergy?.trim() == ""){
+    throw new ApiError(401, "allergy name is not entered");
+  }
+
+  const patient = await Patient.findById(req.patient._id);
+  patient.allergis.push(allergy);
+
+  const updatedPatient = await patient.save({validateBeforeSave : false})
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedPatient, "Allergy added successfully"))
+})
+
+export { registerPatient, loginPatient, logoutPatient, refreshAccessToken, getCurrentUser, updatePatientDetails, addAllergy};

@@ -30,6 +30,20 @@ export const updateUserInfo = createAsyncThunk(
   }
 );
 
+// add ellergy 
+export const addAllergy = createAsyncThunk(
+  "addAllergy",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch("/api/v1/patients/add-allergy",{allergy : data});
+      console.log("after adding ellergy", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const userPatient = createSlice({
   name: "userPatient",
   initialState: {
@@ -70,7 +84,18 @@ export const userPatient = createSlice({
       .addCase(updateUserInfo.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      .addCase(addAllergy.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addAllergy.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(addAllergy.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 
