@@ -290,4 +290,55 @@ const addAllergy = asyncHandler(async(req, res) => {
     .json(new ApiResponse(200, updatedPatient, "Allergy added successfully"))
 })
 
-export { registerPatient, loginPatient, logoutPatient, refreshAccessToken, getCurrentUser, updatePatientDetails, addAllergy};
+const addChronicDisease = asyncHandler(async(req, res) => {
+  const {chronicDisease} = req.body;
+
+  if(chronicDisease?.trim() == ""){
+    throw new ApiError(401, "Chronic Disease name is not entered");
+  }
+
+  const patient = await Patient.findById(req.patient._id);
+  patient.chronicDisease.push(chronicDisease);
+
+  const updatedPatient = await patient.save({validateBeforeSave : false})
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedPatient, "Chronic Disease added successfully"))
+})
+
+const addInjuries = asyncHandler(async(req, res) => {
+  const {injury} = req.body;
+
+  if(injury?.trim() == ""){
+    throw new ApiError(401, "injury name is not entered");
+  }
+
+  const patient = await Patient.findById(req.patient._id);
+  patient.injuries.push(injury);
+
+  const updatedPatient = await patient.save({validateBeforeSave : false})
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedPatient, "Injury added successfully"))
+})
+
+const addSurgeries = asyncHandler(async(req, res) => {
+  const {surgery} = req.body;
+
+  if(surgery?.trim() == ""){
+    throw new ApiError(401, "surgery name is not entered");
+  }
+
+  const patient = await Patient.findById(req.patient._id);
+  patient.surgeries.push(surgery);
+
+  const updatedPatient = await patient.save({validateBeforeSave : false})
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedPatient, "Surgery added successfully"))
+})
+
+export { registerPatient, loginPatient, logoutPatient, refreshAccessToken, getCurrentUser, updatePatientDetails, addAllergy, addChronicDisease, addInjuries, addSurgeries};

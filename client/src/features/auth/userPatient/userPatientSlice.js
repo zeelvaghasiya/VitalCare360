@@ -30,13 +30,55 @@ export const updateUserInfo = createAsyncThunk(
   }
 );
 
-// add ellergy 
+// add allergy 
 export const addAllergy = createAsyncThunk(
   "addAllergy",
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.patch("/api/v1/patients/add-allergy",{allergy : data});
-      console.log("after adding ellergy", response.data);
+      console.log("after adding allergy", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// add chronicdisease 
+export const addChronicdisease = createAsyncThunk(
+  "chronicdisease",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch("/api/v1/patients/add-chronicdisease",{chronicDisease : data});
+      console.log("after adding chronicdisease", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// add injury 
+export const addInjury = createAsyncThunk(
+  "injury",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch("/api/v1/patients/add-injury",{injury : data});
+      console.log("after adding injury", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// add surgery 
+export const addSurgery = createAsyncThunk(
+  "surgery",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch("/api/v1/patients/add-surgery",{surgery : data});
+      console.log("after adding surgery", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -93,6 +135,39 @@ export const userPatient = createSlice({
         state.user = action.payload;
       })
       .addCase(addAllergy.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addChronicdisease.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addChronicdisease.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(addChronicdisease.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addInjury.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addInjury.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(addInjury.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addSurgery.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addSurgery.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(addSurgery.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

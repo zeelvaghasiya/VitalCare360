@@ -6,7 +6,10 @@ import {
   refreshAccessToken,
   getCurrentUser,
   updatePatientDetails,
-  addAllergy
+  addAllergy,
+  addChronicDisease,
+  addInjuries,
+  addSurgeries
 } from "../controllers/patient.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -31,5 +34,8 @@ router.route("/refresh-token").post(refreshAccessToken)
 router.route("/current-user").get(verifyJWT, getCurrentUser)
 router.route("/update-user-info").put(verifyJWT, updatePatientDetails)
 router.route("/add-allergy").patch(verifyJWT, addAllergy)
+router.route("/add-chronicdisease").patch(verifyJWT, addChronicDisease)
+router.route("/add-injury").patch(verifyJWT, addInjuries)
+router.route("/add-surgery").patch(verifyJWT, addSurgeries)
 
 export default router;

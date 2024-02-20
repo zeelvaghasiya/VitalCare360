@@ -1,24 +1,23 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAllergy } from "../../features/auth/userPatient/userPatientSlice";
+import { addInjury } from "../../features/auth/userPatient/userPatientSlice";
 
-function Allergis() {
-  const [newAllergy, setNewAllergy] = useState("");
+function Injuries() {
+  const [newInjury, setNewInjury] = useState("");
 
-  const allergis = useSelector((state) => state.patient?.user?.data?.allergis);
+  const injuries = useSelector((state) => state.patient?.user?.data?.injuries);
 
-  console.log("allergis", allergis);
+  console.log("injuries", injuries);
 
   const dispatch = useDispatch();
 
   const handleAllergy = (e) => {
     e.preventDefault();
-    dispatch(addAllergy(newAllergy));
-    setNewAllergy("");
+    dispatch(addInjury(newInjury));
+    setNewInjury("");
   };
 
-  console.log("newAllergy", newAllergy);
-
+  console.log("newInjury", newInjury);
   return (
     <div>
       <form
@@ -28,9 +27,9 @@ function Allergis() {
         <input
           className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
           type="text"
-          value={newAllergy}
-          onChange={(e) => setNewAllergy(e.target.value)}
-          placeholder="allergy name"
+          value={newInjury}
+          onChange={(e) => setNewInjury(e.target.value)}
+          placeholder="injury name"
         ></input>
         <button
           type="submit"
@@ -40,13 +39,13 @@ function Allergis() {
         </button>
       </form>
       <ul className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2">
-        {allergis &&
-          allergis.map((allergy, index) => (
+        {injuries &&
+          injuries.map((injury, index) => (
             <li
               key={index}
               className="border border-black/30 p-2 rounded-md flex items-center justify-between"
             >
-              <span>{allergy}</span>
+              <span>{injury}</span>
               <div>
                 <button className="text-blue-500 hover:text-blue-700 mr-2">
                   Edit
@@ -62,4 +61,4 @@ function Allergis() {
   );
 }
 
-export default Allergis;
+export default Injuries;
