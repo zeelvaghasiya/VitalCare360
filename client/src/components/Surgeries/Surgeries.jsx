@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addSurgery } from "../../features/auth/userPatient/userPatientSlice";
+import { addSurgery } from "../../features/userPatient/userPatientSlice";
 
 function Surgeries() {
   const [newSurgery, setNewSurgery] = useState("");

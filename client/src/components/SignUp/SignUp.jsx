@@ -6,6 +6,7 @@ import { createPatient } from "../../features/auth/authPatient/authPatientSlice.
 
 function SignUp() {
   const [userData, setUserData] = useState({});
+  const [isDoctor, setIsDoctor] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -15,7 +16,7 @@ function SignUp() {
 
   const handlePhoto = (e) => {
     // console.log("avatar ...",e.target.files[0])
-    setUserData({ ...userData, avatar: e.target.files[0] })
+    setUserData({ ...userData, avatar: e.target.files[0] });
   };
 
   console.log("userData", userData);
@@ -45,7 +46,12 @@ function SignUp() {
               Sign In
             </Link>
           </p>
-          <form onSubmit={handleSubmit} method="POST" className="mt-8" encType='multipart/form-data'>
+          <form
+            onSubmit={handleSubmit}
+            method="POST"
+            className="mt-8"
+            encType="multipart/form-data"
+          >
             <div className="space-y-5">
               <div>
                 <label
@@ -199,40 +205,6 @@ function SignUp() {
                     name="password"
                     onChange={getUserData}
                   ></input>
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="gender"
-                  className="text-base font-medium text-gray-900"
-                >
-                  {" "}
-                  Select : Who are you ?{" "}
-                </label>
-                <div className="mt-2">
-                  <div className="flex">
-                    <div className="flex items-center">
-                      <input
-                        className="form-radio h-4 w-4 text-gray-600 border-gray-300"
-                        name="user"
-                        value="Patient"
-                        type="radio"
-                        required
-                        onChange={getUserData}
-                      />
-                      <span className="ml-2 text-gray-700 mr-8">Patient</span>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        className="form-radio h-4 w-4 text-gray-600 border-gray-300"
-                        name="user"
-                        value="Doctor"
-                        type="radio"
-                        onChange={getUserData}
-                      />
-                      <span className="ml-2 text-gray-700">Doctor</span>
-                    </div>
-                  </div>
                 </div>
               </div>
               <div>

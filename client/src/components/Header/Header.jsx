@@ -5,7 +5,7 @@ import { Menu, X } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutPatient } from "../../features/auth/authPatient/authPatientSlice";
-import { resetStore } from "../../features/auth/userPatient/userPatientSlice";
+import { resetStore } from "../../features/userPatient/userPatientSlice";
 
 const menuItems = [
   {

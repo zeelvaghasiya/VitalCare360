@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAllergy } from "../../features/auth/userPatient/userPatientSlice";
+import { addAllergy } from "../../features/userPatient/userPatientSlice";
 
 function Allergis() {
   const [newAllergy, setNewAllergy] = useState("");

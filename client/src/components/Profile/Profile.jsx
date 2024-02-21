@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   updateUserInfo,
   userInfo,
-} from "../../features/auth/userPatient/userPatientSlice";
+} from "../../features/userPatient/userPatientSlice";
 import { useNavigate } from "react-router-dom";
 import DC from "../../images/DC.png";
 import { format } from "date-fns";

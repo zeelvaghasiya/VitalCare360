@@ -42,7 +42,7 @@ const doctorSchema = new Schema(
       {
         type: String,
         required: true,
-        enum: ["General Physician","Skin and Hair","Women's Health","Dental Care","Child's Specialist","Physiotherapist","Eye Specialist","Heart"]
+        enum: ["GeneralPhysician","SkinAndHair","WomenHealth","DentalCare","ChildSpecialist","Physiotherapist","EyeSpecialist","Heart"]
       },
     ],
     eduQualification: [
@@ -57,6 +57,11 @@ const doctorSchema = new Schema(
         type: String,
       },
     ],
+    doctorOption : {
+      type: String,
+      required: true,
+      enum : ["slotBooking","videoConsultant"]
+    }
   },
   {
     timestamps: true,
@@ -102,3 +107,4 @@ doctorSchema.methods.generateRefreshToken = function () {
 };
 
 export const Doctor = mongoose.model("Doctor", doctorSchema);
+1

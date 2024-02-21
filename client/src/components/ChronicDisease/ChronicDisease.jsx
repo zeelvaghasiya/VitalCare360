@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addChronicdisease } from "../../features/auth/userPatient/userPatientSlice";
+import { addChronicdisease } from "../../features/userPatient/userPatientSlice";
 
 function ChronicDisease() {
   const [newChronicDisease, setNewChronicDisease] = useState("");

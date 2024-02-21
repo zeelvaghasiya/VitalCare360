@@ -7,6 +7,7 @@ import { loginPatient } from "../../features/auth/authPatient/authPatientSlice";
 function SignIn() {
 
   const [loginData, setLoginData] = useState({});
+  const [isDoctor, setIsDoctor] = useState(false);
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -106,7 +107,10 @@ function SignIn() {
                         value="Patient"
                         type="radio"
                         required
-                        onChange={getLoginData}
+                        onChange={(e) => {
+                          getLoginData(e);
+                          setIsDoctor(false);
+                        }}
                       />
                       <span className="ml-2 text-gray-700 mr-8">Patient</span>
                     </div>
@@ -116,13 +120,56 @@ function SignIn() {
                         name="user"
                         value="Doctor"
                         type="radio"
-                        onChange={getLoginData}
+                        onChange={(e) => {
+                          getLoginData(e);
+                          setIsDoctor(true);
+                        }}
                       />
                       <span className="ml-2 text-gray-700">Doctor</span>
                     </div>
                   </div>
                 </div>
               </div>
+              {isDoctor && (
+                <div>
+                  <label
+                    htmlFor="gender"
+                    className="text-base font-medium text-gray-900"
+                  >
+                    {" "}
+                    Select : Functionality which you provide{" "}
+                  </label>
+                  <div className="mt-2">
+                    <div className="flex">
+                      <div className="flex items-center">
+                        <input
+                          className="form-radio h-4 w-4 text-gray-600 border-gray-300"
+                          name="doctorOption"
+                          value="slotBooking"
+                          type="radio"
+                          required
+                          onChange={getLoginData}
+                        />
+                        <span className="ml-2 text-gray-700 mr-8">
+                          Slot Booking
+                        </span>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          className="form-radio h-4 w-4 text-gray-600 border-gray-300"
+                          name="doctorOption"
+                          value="videoConsultant"
+                          type="radio"
+                          onChange={getLoginData}
+                        />
+                        <span className="ml-2 text-gray-700">
+                          Video Consultant
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               <div>
                 <button
                   type="submit"

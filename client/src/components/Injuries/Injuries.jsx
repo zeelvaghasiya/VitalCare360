@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addInjury } from "../../features/auth/userPatient/userPatientSlice";
+import { addInjury } from "../../features/userPatient/userPatientSlice";
 
 function Injuries() {
   const [newInjury, setNewInjury] = useState("");

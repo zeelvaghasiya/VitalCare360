@@ -1,8 +1,33 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { createDoctor } from "../../features/auth/authDoctor/authDoctorSlice";
+import { useDispatch } from "react-redux";
 
 function DoctorForm() {
+  const [doctorData, setDoctorData] = useState({});
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch()
+
+  const getDoctorData = (e) => {
+    setDoctorData({...doctorData, [e.target.name] : e.target.value})
+  }
+
+  const handlePhoto = (e) => {
+    // console.log("avatar ...",e.target.files[0])
+    setDoctorData({ ...doctorData, avatar: e.target.files[0] });
+  };
+
+  console.log("doctor data",doctorData);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("doctor...", doctorData);
+    dispatch(createDoctor(doctorData));
+    navigate("/signin");
+  };
+
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -11,7 +36,7 @@ function DoctorForm() {
           <h2 className="text-center text-2xl font-bold leading-tight text-blue-400">
             Doctor Enrollment Application
           </h2>
-          <form action="#" method="POST" className="mt-8">
+          <form onSubmit={handleSubmit} method="POST" className="mt-8">
             <div className="space-y-5">
               <div>
                 <label
@@ -29,6 +54,7 @@ function DoctorForm() {
                     id="fullName"
                     required
                     name="fullName"
+                    onChange={getDoctorData}
                   ></input>
                 </div>
               </div>
@@ -48,6 +74,7 @@ function DoctorForm() {
                     id="email"
                     required
                     name="email"
+                    onChange={getDoctorData}
                   ></input>
                 </div>
               </div>
@@ -67,6 +94,7 @@ function DoctorForm() {
                     id="avatar"
                     required
                     name="avatar"
+                    onChange={handlePhoto}
                   ></input>
                 </div>
               </div>
@@ -86,6 +114,7 @@ function DoctorForm() {
                     id="contactNumber"
                     required
                     name="contactNumber"
+                    onChange={getDoctorData}
                   ></input>
                 </div>
               </div>
@@ -105,6 +134,7 @@ function DoctorForm() {
                       value="Male"
                       type="radio"
                       required
+                      onChange={getDoctorData}
                     />
                     <span className="ml-2 text-gray-700 mr-8">Male</span>
                   </div>
@@ -114,6 +144,7 @@ function DoctorForm() {
                       name="gender"
                       value="Female"
                       type="radio"
+                      onChange={getDoctorData}
                     />
                     <span className="ml-2 text-gray-700">Female</span>
                   </div>
@@ -137,28 +168,10 @@ function DoctorForm() {
                     id="password"
                     required
                     name="password"
+                    onChange={getDoctorData}
                   ></input>
                 </div>
               </div>
-              {/* <div>
-                <label
-                  htmlFor="speciality"
-                  className="text-base font-medium text-gray-900"
-                >
-                  {" "}
-                  Speciality{" "}
-                </label>
-                <div className="mt-2">
-                  <input
-                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                    type="text"
-                    placeholder="Speciality"
-                    id="speciality"
-                    required
-                    name="speciality"
-                  ></input>
-                </div>
-              </div> */}
               <div>
                 <label
                   htmlFor="speciality"
@@ -172,6 +185,7 @@ function DoctorForm() {
                     id="speciality"
                     required
                     name="speciality"
+                    onChange={getDoctorData}
                   >
                     <option value="" disabled selected hidden>
                       Choose a Speciality
@@ -187,7 +201,6 @@ function DoctorForm() {
                   </select>
                 </div>
               </div>
-
               <div>
                 <label
                   htmlFor="eduQualification"
@@ -204,12 +217,51 @@ function DoctorForm() {
                     id="eduQualification"
                     required
                     name="eduQualification"
+                    onChange={getDoctorData}
                   ></input>
                 </div>
               </div>
               <div>
+                <label
+                  htmlFor="doctorOption"
+                  className="text-base font-medium text-gray-900"
+                >
+                  {" "}
+                  Select : Functionality which you provide{" "}
+                </label>
+                <div className="mt-2">
+                  <div className="flex">
+                    <div className="flex items-center">
+                      <input
+                        className="form-radio h-4 w-4 text-gray-600 border-gray-300"
+                        name="doctorOption"
+                        value="slotBooking"
+                        type="radio"
+                        required
+                        onChange={getDoctorData}
+                      />
+                      <span className="ml-2 text-gray-700 mr-8">
+                        Slot Booking
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        className="form-radio h-4 w-4 text-gray-600 border-gray-300"
+                        name="doctorOption"
+                        value="videoConsultant"
+                        type="radio"
+                        onChange={getDoctorData}
+                      />
+                      <span className="ml-2 text-gray-700">
+                        Video Consultant
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
                 <button
-                  type="button"
+                  type="submit"
                   className="inline-flex w-full items-center justify-center rounded-md bg-blue-400 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 >
                   Create Account <ArrowRight className="ml-2" size={16} />
