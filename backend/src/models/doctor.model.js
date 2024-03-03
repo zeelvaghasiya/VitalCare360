@@ -66,11 +66,6 @@ const doctorSchema = new Schema(
         type: String,
       },
     ],
-    doctorOption: {
-      type: String,
-      required: true,
-      enum: ["slotBooking", "videoConsultant"],
-    },
     timeSlots: [
       {
         dayOfWeek: {

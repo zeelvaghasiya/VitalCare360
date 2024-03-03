@@ -233,44 +233,6 @@ function DoctorForm() {
                 </div>
               </div>
               <div>
-                <label
-                  htmlFor="doctorOption"
-                  className="text-base font-medium text-gray-900"
-                >
-                  {" "}
-                  Select : Functionality which you provide{" "}
-                </label>
-                <div className="mt-2">
-                  <div className="flex">
-                    <div className="flex items-center">
-                      <input
-                        className="form-radio h-4 w-4 text-gray-600 border-gray-300"
-                        name="doctorOption"
-                        value="slotBooking"
-                        type="radio"
-                        required
-                        onChange={getDoctorData}
-                      />
-                      <span className="ml-2 text-gray-700 mr-8">
-                        Slot Booking
-                      </span>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        className="form-radio h-4 w-4 text-gray-600 border-gray-300"
-                        name="doctorOption"
-                        value="videoConsultant"
-                        type="radio"
-                        onChange={getDoctorData}
-                      />
-                      <span className="ml-2 text-gray-700">
-                        Video Consultant
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
                 <button
                   type="submit"
                   className="inline-flex w-full items-center justify-center rounded-md bg-blue-400 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
