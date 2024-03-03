@@ -15,7 +15,11 @@ function DiagnosisList() {
       <div className="grid grid-cols-1 gap-y-8 text-center sm:grid-cols-2 sm:gap-12 lg:grid-cols-5">
         <div className="mb-8">
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-blue-100">
-            <Link to="doctorlist">
+            <Link
+              to={{
+                pathname: `/patient/doctorlist/GeneralPhysician`,
+              }}
+            >
               <img
                 className="h-12 w-12 text-blue-600 hover:scale-150 transition-transform duration-300"
                 src={physicianLogo}
@@ -29,7 +33,11 @@ function DiagnosisList() {
         </div>
         <div>
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-purple-100">
-            <Link to="doctorlist">
+            <Link
+              to={{
+                pathname: `/patient/doctorlist/SkinAndHair`,
+              }}
+            >
               <img
                 className="h-12 w-12 text-blue-600 hover:scale-150 transition-transform duration-300"
                 src={hairLogo}
@@ -42,7 +50,11 @@ function DiagnosisList() {
         </div>
         <div>
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
-            <Link to="doctorlist">
+            <Link
+              to={{
+                pathname: `/patient/doctorlist/WomenHealth`,
+              }}
+            >
               <img
                 className="h-12 w-12 text-blue-600 hover:scale-150 transition-transform duration-300"
                 src={womenLogo}
@@ -55,7 +67,11 @@ function DiagnosisList() {
         </div>
         <div>
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-            <Link to="doctorlist">
+            <Link
+              to={{
+                pathname: `/patient/doctorlist/DentalCare`,
+              }}
+            >
               <img
                 className="h-12 w-12 text-blue-600 hover:scale-150 transition-transform duration-300"
                 src={dentalCareLogo}
@@ -66,7 +82,11 @@ function DiagnosisList() {
         </div>
         <div>
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-blue-100">
-            <Link to="doctorlist">
+            <Link
+              to={{
+                pathname: `/patient/doctorlist/ChildSpecialist`,
+              }}
+            >
               <img
                 className="h-12 w-12 text-blue-600 hover:scale-150 transition-transform duration-300"
                 src={childLogo}
@@ -79,7 +99,11 @@ function DiagnosisList() {
         </div>
         <div>
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-orange-100">
-            <Link to="doctorlist">
+            <Link
+              to={{
+                pathname: `/patient/doctorlist/Physiotherapist`,
+              }}
+            >
               <img
                 className="h-12 w-12 text-blue-600 hover:scale-150 transition-transform duration-300"
                 src={physiotherapyLogo}
@@ -92,7 +116,11 @@ function DiagnosisList() {
         </div>
         <div>
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
-            <Link to="doctorlist">
+            <Link
+              to={{
+                pathname: `/patient/doctorlist/EyeSpecialist`,
+              }}
+            >
               <img
                 className="h-12 w-12 text-blue-600 hover:scale-150 transition-transform duration-300"
                 src={eyeLogo}
@@ -105,7 +133,11 @@ function DiagnosisList() {
         </div>
         <div>
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
-            <Link to="doctorlist">
+            <Link
+              to={{
+                pathname: `/patient/doctorlist/Heart`,
+              }}
+            >
               <img
                 className="h-12 w-12 text-blue-600 hover:scale-125 transition-transform duration-300"
                 src={heartLogo}

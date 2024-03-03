@@ -15,15 +15,22 @@ import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
 import Profile from "./components/Profile/Profile.jsx";
 import DoctorForm from "./components/DoctorForm/DoctorForm.jsx";
 import { store } from "./app/store.js";
+import MainPage from "./components/MainInterface/MainPage/MainPage.jsx";
+import MainLayout from "./MainLayout.jsx";
+import DoctorLayout from "./DoctorLayout.jsx"
+import DProfile from "./components/Doctor/DProfile/DProfile.jsx";
+import AddTimeSlot from "./components/Doctor/AddTimeSlot/AddTimeSlot.jsx";
+import ManageTimeSlot from "./components/Doctor/ManageTimeSlot/ManageTimeSlot.jsx";
+import MyAppointment from "./components/MyAppointment/MyAppointment.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <MainLayout />,
     children: [
       {
         path: "",
-        element: <Home />,
+        element: <MainPage />,
       },
       {
         path: "about",
@@ -34,23 +41,63 @@ const router = createBrowserRouter([
         element: <ContactUs />,
       },
       {
+        path: "*",
+        element: <ErrorPage />,
+      },
+    ],
+  },
+  {
+    path: "/doctor",
+    element: <DoctorLayout />,
+    children: [
+      {
+        path: "add-timeslot",
+        element: <AddTimeSlot />,
+      },
+      {
+        path: "manage-timeslot",
+        element: <ManageTimeSlot />,
+      },
+      {
+        path: "profile",
+        element: <DProfile />,
+      },
+      {
+        path: "*", // Error page should also be relative
+        element: <ErrorPage />,
+      },
+    ],
+  },
+  {
+    path: "/patient",
+    element: <Layout />,
+    children: [
+      {
+        path: "home",
+        element: <Home />,
+      },
+      {
+        path: "my-appointment",
+        element: <MyAppointment />,
+      },
+      {
+        path: "contactus",
+        element: <ContactUs />,
+      },
+      {
         path: "diagnosislist",
         element: <DiagnosisList />,
       },
       {
-        path: "diagnosislist/doctorlist",
+        path: "doctorlist/:diagnosis",
         element: <DoctorList />,
       },
       {
-        path: "/doctorform",
-        element: <DoctorForm />,
-      },
-      {
-        path: "/profile",
+        path: "profile",
         element: <Profile />,
       },
       {
-        path: "*",
+        path: "*", // Error page should also be relative
         element: <ErrorPage />,
       },
     ],
@@ -62,6 +109,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp />,
+  },
+  {
+    path: "/doctorSignup", // Relative path to the parent route
+    element: <DoctorForm />,
   },
 ]);
 

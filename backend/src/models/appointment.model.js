@@ -7,21 +7,20 @@ const appointmentSchema = new Schema(
     patientRef: {
       type: Schema.Types.ObjectId,
       ref: "Patient",
-      required: true
+      required: true,
     },
     doctorRef: {
-        type: Schema.Types.ObjectId,
-        ref: "Doctor",
-        required: true
-    },
-    slotRef: {
-        type: Schema.Types.ObjectId,
-        ref: "Slot",
-        required: true
+      type: Schema.Types.ObjectId,
+      ref: "Doctor",
+      required: true,
     },
     date: {
-        type: Date,
-        required: true
+      type: Date,
+      required: true,
+    },
+    startTime: {
+      type: String,
+      required: true,
     },
     appointmentStatus: {
       type: String,

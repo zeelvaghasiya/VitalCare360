@@ -3,26 +3,32 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { loginPatient } from "../../features/auth/authPatient/authPatientSlice";
+import { loginDoctor } from "../../features/auth/authDoctor/authDoctorSlice";
 
 function SignIn() {
-
   const [loginData, setLoginData] = useState({});
   const [isDoctor, setIsDoctor] = useState(false);
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const getLoginData = (e) => {
-    setLoginData({...loginData, [e.target.name]: e.target.value})
-  }
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  };
 
-  console.log(loginData)
+  console.log(loginData);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginPatient(loginData))
-    navigate("/")
-  }
+
+    if (isDoctor) {
+      dispatch(loginDoctor(loginData));
+      navigate("/doctor");
+    } else {
+      dispatch(loginPatient(loginData));
+      navigate("/patient/home");
+    }
+  };
 
   return (
     <section>
@@ -35,14 +41,24 @@ function SignIn() {
           <p className="mt-2 text-center text-sm text-gray-600 ">
             Don&apos;t have an account?{" "}
             <Link
-              to="/signup"
+              to={
+                localStorage.getItem("isDoctor") === "true"
+                  ? "/doctorSignup"
+                  : "/signup"
+              }
+              onClick={() => localStorage.removeItem("isDoctor")}
               title=""
               className="font-semibold text-black transition-all duration-200 hover:underline"
             >
               Create a free account
             </Link>
           </p>
-          <form action="#" method="POST" className="mt-8" onSubmit={handleSubmit}>
+          <form
+            action="#"
+            method="POST"
+            className="mt-8"
+            onSubmit={handleSubmit}
+          >
             <div className="space-y-5">
               <div>
                 <label
@@ -85,7 +101,7 @@ function SignIn() {
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="password"
                     placeholder="Password"
-                    name = "password"
+                    name="password"
                     onChange={getLoginData}
                   ></input>
                 </div>

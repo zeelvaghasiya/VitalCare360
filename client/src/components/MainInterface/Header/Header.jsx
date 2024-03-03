@@ -3,42 +3,32 @@
 import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutPatient } from "../../features/auth/authPatient/authPatientSlice";
-import { resetStore } from "../../features/userPatient/userPatientSlice";
 
 const menuItems = [
   {
     name: "Home",
-    href: "/patient/home",
+    href: "/",
   },
   {
-    name: "My Appointment",
-    href: "/patient/my-appointment",
+    name: "About",
+    href: "/about",
+  },
+  {
+    name: "Blog",
+    href: "/blog",
   },
   {
     name: "Contact",
-    href: "/patient/contactus",
+    href: "/contactus",
   },
 ];
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-  const handleLogout = () => {
-    dispatch(resetStore());
-    dispatch(logoutPatient());
-    navigate("/");
-  };
-  
-  const userToken = localStorage.getItem("userToken");
 
   return (
     <div className="w-full">
@@ -55,7 +45,6 @@ function Header() {
               {menuItems.map((item) => (
                 <li key={item.name}>
                   <NavLink
-                    exact
                     to={item.href}
                     className={({ isActive }) =>
                       `-m-3 flex items-center rounded-md p-3 text-lg font-semibold hover:bg-gray-50 ${
@@ -68,38 +57,6 @@ function Header() {
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="hidden lg:block">
-            {userToken ? (
-              <>
-                <Link
-                  to="/patient/profile"
-                  className="mr-2 rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                >
-                  Profile
-                </Link>
-                <button onClick={handleLogout}>
-                  <span className="rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
-                    Logout
-                  </span>
-                </button>
-              </>
-            ) : (
-              <>
-                <Link
-                  to="/signin"
-                  className="mr-2 rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  to="/signup"
-                  className="mr-2 rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
           </div>
           <div className="lg:hidden">
             <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
@@ -125,7 +82,7 @@ function Header() {
                         </svg>
                       </span>
                       <span className="font-bold text-3xl text-blue-400">
-                        DevUI
+                        vitalCare360
                       </span>
                     </div>
                     <div className="-mr-2">
@@ -158,38 +115,6 @@ function Header() {
                       ))}
                     </nav>
                   </div>
-                  {userToken ? (
-                    <div>
-                      <button
-                        type="button"
-                        className="my-2 w-full rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                      >
-                        <Link to="/patient/profile">Profile</Link>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={handleLogout}
-                        className="w-full rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                      >
-                        <Link to="/">Logout</Link>
-                      </button>
-                    </div>
-                  ) : (
-                    <div>
-                      <button
-                        type="button"
-                        className="my-2 w-full rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                      >
-                        <Link to="/signin">Sign In</Link>
-                      </button>
-                      <button
-                        type="button"
-                        className="mb-2 w-full rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                      >
-                        <Link to="/signup">Sign Up</Link>
-                      </button>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

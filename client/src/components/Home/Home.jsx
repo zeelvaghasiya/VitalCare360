@@ -64,10 +64,10 @@ function Home() {
                     by booking your appointment slot now!
                   </p>
                   <button
-                    to="/diagnosislist"
+                    to="/patient/diagnosislist"
                     className="mt-4 rounded-md bg-blue-400 px-2.5 py-1 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                   >
-                    <Link to="/diagnosislist">Secure Slot</Link>
+                    <Link to="/patient/diagnosislist">Secure Slot</Link>
                   </button>
                 </div>
               </div>

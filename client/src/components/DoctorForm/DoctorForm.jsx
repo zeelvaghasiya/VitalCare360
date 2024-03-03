@@ -36,6 +36,17 @@ function DoctorForm() {
           <h2 className="text-center text-2xl font-bold leading-tight text-blue-400">
             Doctor Enrollment Application
           </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Already have an account?{" "}
+            <Link
+              to="/signin"
+              onClick={() => {localStorage.setItem("isDoctor","true")}}
+              title=""
+              className="font-semibold text-black transition-all duration-200 hover:underline"
+            >
+              Sign In
+            </Link>
+          </p>
           <form onSubmit={handleSubmit} method="POST" className="mt-8">
             <div className="space-y-5">
               <div>

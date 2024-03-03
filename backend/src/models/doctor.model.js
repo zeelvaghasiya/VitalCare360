@@ -37,14 +37,23 @@ const doctorSchema = new Schema(
     },
     personalInfo: {
       type: String,
+      default: "I am a Doctor",
     },
-    speciality: [
-      {
-        type: String,
-        required: true,
-        enum: ["GeneralPhysician","SkinAndHair","WomenHealth","DentalCare","ChildSpecialist","Physiotherapist","EyeSpecialist","Heart"]
-      },
-    ],
+    speciality: {
+      type: String,
+      required: true,
+      enum: [
+        "GeneralPhysician",
+        "SkinAndHair",
+        "WomenHealth",
+        "DentalCare",
+        "ChildSpecialist",
+        "Physiotherapist",
+        "EyeSpecialist",
+        "Heart",
+      ],
+    },
+
     eduQualification: [
       {
         type: String,
@@ -57,11 +66,38 @@ const doctorSchema = new Schema(
         type: String,
       },
     ],
-    doctorOption : {
+    doctorOption: {
       type: String,
       required: true,
-      enum : ["slotBooking","videoConsultant"]
-    }
+      enum: ["slotBooking", "videoConsultant"],
+    },
+    timeSlots: [
+      {
+        dayOfWeek: {
+          type: String,
+          enum: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+          ],
+          required: true,
+        },
+        startTime: {
+          type: String,
+          required: true,
+        },
+        status: {
+          type: String,
+          default: "Available",
+          enum: ["Available", "Booked", "Unavailable"],
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -107,4 +143,4 @@ doctorSchema.methods.generateRefreshToken = function () {
 };
 
 export const Doctor = mongoose.model("Doctor", doctorSchema);
-1
+1;

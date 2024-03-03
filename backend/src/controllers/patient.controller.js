@@ -24,70 +24,67 @@ const generateAccessAndRefereshTokens = async (patientId) => {
 };
 
 const registerPatient = asyncHandler(async (req, res) => {
-  const { username, fullName, contactNumber, email, gender, password, user} =
+  const { username, fullName, contactNumber, email, gender, password } =
     req.body;
   // console.log("email: ", email);
 
   if (
-    [username, fullName, contactNumber, email, gender, password, user].some(
+    [username, fullName, contactNumber, email, gender, password].some(
       (field) => field?.trim() === ""
     )
   ) {
     throw new ApiError(400, "All fields are required");
   }
 
-  if (user === "Patient") {
-    const existedPatient = await Patient.findOne({
-      $or: [{ username }, { email }],
-    });
+  const existedPatient = await Patient.findOne({
+    $or: [{ username }, { email }],
+  });
 
-    if (existedPatient) {
-      throw new ApiError(409, "Patient with email or username already exists");
-    }
-    
-
-    // multer provides more option in req object whenever we use:
-    // req.files
-
-    const avatarLocalPath = req.files?.avatar[0]?.path;
-
-    if (!avatarLocalPath) {
-      throw new ApiError(400, "Avatar file is required");
-    }
-
-    const avatar = await uploadOnCloudinary(avatarLocalPath);
-
-    if (!avatar) {
-      throw new ApiError(400, "Avatar file is required");
-    }
-
-    const patient = await Patient.create({
-      fullName,
-      contactNumber,
-      avatar: avatar.url,
-      email,
-      gender,
-      password,
-      username: username.toLowerCase(),
-    });
-
-    const createdPatient = await Patient.findById(patient._id).select(
-      "-password -refreshToken"
-    );
-
-    if (!createdPatient) {
-      throw new ApiError(
-        500,
-        "Something went wrong while registering the pateint"
-      );
-    }
-
-    return res
-      .status(201)
-      .json(
-        new ApiResponse(200, createdPatient, "Patient registered Successfully")
-      );
+  if (existedPatient) {
+    throw new ApiError(409, "Patient with email or username already exists");
   }
+
+  // multer provides more option in req object whenever we use:
+  // req.files
+
+  const avatarLocalPath = req.files?.avatar[0]?.path;
+
+  if (!avatarLocalPath) {
+    throw new ApiError(400, "Avatar file is required");
+  }
+
+  const avatar = await uploadOnCloudinary(avatarLocalPath);
+
+  if (!avatar) {
+    throw new ApiError(400, "Avatar file is required");
+  }
+
+  const patient = await Patient.create({
+    fullName,
+    contactNumber,
+    avatar: avatar.url,
+    email,
+    gender,
+    password,
+    username: username.toLowerCase(),
+  });
+
+  const createdPatient = await Patient.findById(patient._id).select(
+    "-password -refreshToken"
+  );
+
+  if (!createdPatient) {
+    throw new ApiError(
+      500,
+      "Something went wrong while registering the pateint"
+    );
+  }
+
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(200, createdPatient, "Patient registered Successfully")
+    );
 });
 
 const loginPatient = asyncHandler(async (req, res) => {
@@ -137,7 +134,7 @@ const loginPatient = asyncHandler(async (req, res) => {
     // cookie mate option set karvani jarur pade, je ak object 6
     // cookie khali server side thi j modified thay sake , frontend side only joie sakay
     const options = {
-      sameSite: 'None',
+      sameSite: "None",
       httpOnly: true,
       secure: true,
     };
@@ -174,7 +171,7 @@ const logoutPatient = asyncHandler(async (req, res) => {
   );
 
   const options = {
-    sameSite: 'None',
+    sameSite: "None",
     httpOnly: true,
     secure: true,
   };
@@ -235,110 +232,127 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
-const getCurrentUser = asyncHandler(async(req, res) => {
-
+const getCurrentUser = asyncHandler(async (req, res) => {
   return res
-  .status(200)
-  .json(new ApiResponse(
-      200,
-      req.patient,
-      "User fetched successfully"
-  ))
-})
-
-const updatePatientDetails = asyncHandler(async(req, res) => {
-  const {username, fullName, contactNumber, email, gender, DOB, bloodGroup, height, weight} = req.body
-
-  const user = await Patient.findByIdAndUpdate(
-      req.patient?._id,
-      {
-          $set: {
-            username,
-            fullName,
-            contactNumber,
-            email,
-            gender,
-            DOB,
-            bloodGroup,
-            height,
-            weight
-          }
-      },
-      {new: true}
-      
-  ).select("-password")
-
-  return res
-  .status(200)
-  .json(new ApiResponse(200, user, "Account details updated successfully"))
+    .status(200)
+    .json(new ApiResponse(200, req.patient, "User fetched successfully"));
 });
 
-const addAllergy = asyncHandler(async(req, res) => {
-  const {allergy} = req.body;
+const updatePatientDetails = asyncHandler(async (req, res) => {
+  const {
+    username,
+    fullName,
+    contactNumber,
+    email,
+    gender,
+    DOB,
+    bloodGroup,
+    height,
+    weight,
+  } = req.body;
 
-  if(allergy?.trim() == ""){
+  const user = await Patient.findByIdAndUpdate(
+    req.patient?._id,
+    {
+      $set: {
+        username,
+        fullName,
+        contactNumber,
+        email,
+        gender,
+        DOB,
+        bloodGroup,
+        height,
+        weight,
+      },
+    },
+    { new: true }
+  ).select("-password");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Account details updated successfully"));
+});
+
+const addAllergy = asyncHandler(async (req, res) => {
+  const { allergy } = req.body;
+
+  if (allergy?.trim() == "") {
     throw new ApiError(401, "allergy name is not entered");
   }
 
   const patient = await Patient.findById(req.patient._id);
   patient.allergis.push(allergy);
 
-  const updatedPatient = await patient.save({validateBeforeSave : false})
+  const updatedPatient = await patient.save({ validateBeforeSave: false });
 
   return res
     .status(200)
-    .json(new ApiResponse(200, updatedPatient, "Allergy added successfully"))
-})
+    .json(new ApiResponse(200, updatedPatient, "Allergy added successfully"));
+});
 
-const addChronicDisease = asyncHandler(async(req, res) => {
-  const {chronicDisease} = req.body;
+const addChronicDisease = asyncHandler(async (req, res) => {
+  const { chronicDisease } = req.body;
 
-  if(chronicDisease?.trim() == ""){
+  if (chronicDisease?.trim() == "") {
     throw new ApiError(401, "Chronic Disease name is not entered");
   }
 
   const patient = await Patient.findById(req.patient._id);
   patient.chronicDisease.push(chronicDisease);
 
-  const updatedPatient = await patient.save({validateBeforeSave : false})
+  const updatedPatient = await patient.save({ validateBeforeSave: false });
 
   return res
     .status(200)
-    .json(new ApiResponse(200, updatedPatient, "Chronic Disease added successfully"))
-})
+    .json(
+      new ApiResponse(200, updatedPatient, "Chronic Disease added successfully")
+    );
+});
 
-const addInjuries = asyncHandler(async(req, res) => {
-  const {injury} = req.body;
+const addInjuries = asyncHandler(async (req, res) => {
+  const { injury } = req.body;
 
-  if(injury?.trim() == ""){
+  if (injury?.trim() == "") {
     throw new ApiError(401, "injury name is not entered");
   }
 
   const patient = await Patient.findById(req.patient._id);
   patient.injuries.push(injury);
 
-  const updatedPatient = await patient.save({validateBeforeSave : false})
+  const updatedPatient = await patient.save({ validateBeforeSave: false });
 
   return res
     .status(200)
-    .json(new ApiResponse(200, updatedPatient, "Injury added successfully"))
-})
+    .json(new ApiResponse(200, updatedPatient, "Injury added successfully"));
+});
 
-const addSurgeries = asyncHandler(async(req, res) => {
-  const {surgery} = req.body;
+const addSurgeries = asyncHandler(async (req, res) => {
+  const { surgery } = req.body;
 
-  if(surgery?.trim() == ""){
+  if (surgery?.trim() == "") {
     throw new ApiError(401, "surgery name is not entered");
   }
 
   const patient = await Patient.findById(req.patient._id);
   patient.surgeries.push(surgery);
 
-  const updatedPatient = await patient.save({validateBeforeSave : false})
+  const updatedPatient = await patient.save({ validateBeforeSave: false });
 
   return res
     .status(200)
-    .json(new ApiResponse(200, updatedPatient, "Surgery added successfully"))
-})
+    .json(new ApiResponse(200, updatedPatient, "Surgery added successfully"));
+});
 
-export { registerPatient, loginPatient, logoutPatient, refreshAccessToken, getCurrentUser, updatePatientDetails, addAllergy, addChronicDisease, addInjuries, addSurgeries};
+export {
+  registerPatient,
+  loginPatient,
+  logoutPatient,
+  refreshAccessToken,
+  getCurrentUser,
+  updatePatientDetails,
+  addAllergy,
+  addChronicDisease,
+  addInjuries,
+  addSurgeries,
+};
