@@ -74,7 +74,7 @@ function DProfile() {
             <div className="w-full">
               {/* Profile Photo */}
               <img
-                className="mt-4 w-24 h-24 md:w-48 md:h-48 rounded-full md:flex-shrink-0 mx-auto shadow-2xl border-4 border-blue-400"
+                className="mt-4 w-24 h-24 md:w-48 md:h-48 rounded-full md:flex-shrink-0 mx-auto shadow-2xl border-4 border-blue-400 object-cover"
                 src={doctorData.avatar}
                 alt="Profile"
               />

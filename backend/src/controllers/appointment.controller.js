@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Appointment } from "../models/appointment.model.js";
 import { Doctor } from "../models/doctor.model.js";
+import { Patient } from "../models/patient.model.js";
 
 const bookAppointment = asyncHandler(async (req, res) => {
   // Extract appointment details from the request body
@@ -80,4 +81,34 @@ const bookAppointment = asyncHandler(async (req, res) => {
     );
 });
 
-export { bookAppointment };
+const getAppointmentById = asyncHandler(async (req, res) => {
+  const patientId = req.patient._id;
+
+  if (!patientId) {
+    throw new ApiError(400, "Patient ID must be required");
+  }
+
+  const appointments = await Appointment.find({ patientRef: patientId })
+    .populate({
+      path: "patientRef",
+      model: "Patient", // Use string instead of object
+      select: "fullName", // Select only the fullName field
+    })
+    .populate({
+      path: "doctorRef",
+      model: "Doctor", // Use string instead of object
+      select: "fullName", // Select only the fullName field
+    });
+
+  if (!appointments || appointments.length === 0) {
+    throw new ApiError(404, "Appointments not found for this patient");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, appointments, "Appointments fetched successfully")
+    );
+});
+
+export { bookAppointment, getAppointmentById };

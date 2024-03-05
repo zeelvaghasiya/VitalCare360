@@ -93,7 +93,7 @@ function DoctorCard({ info, showPopup, setShowPopup }) {
             <img
               src={info.avatar}
               alt="Doctor"
-              className="h-full w-full rounded-md object-cover"
+              className="rounded-md object-cover"
             />
           </div>
           <div className="p-4">

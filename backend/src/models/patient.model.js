@@ -139,4 +139,4 @@ patientSchema.methods.generateRefreshToken = function () {
   );
 };
 
-export const Patient = mongoose.model("Pateint", patientSchema);
+export const Patient = mongoose.model("Patient", patientSchema);
