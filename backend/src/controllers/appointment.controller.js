@@ -111,4 +111,77 @@ const getAppointmentById = asyncHandler(async (req, res) => {
     );
 });
 
-export { bookAppointment, getAppointmentById };
+const getAppointmentByIdForDoctor = asyncHandler(async (req, res) => {
+  const doctorId = req.doctor._id;
+
+  if (!doctorId) {
+    throw new ApiError(400, "Doctor ID must be required");
+  }
+
+  const appointments = await Appointment.find({ doctorRef: doctorId }).populate(
+    {
+      path: "patientRef",
+      model: "Patient",
+      select: "fullName",
+    }
+  );
+
+  if (!appointments || appointments.length === 0) {
+    throw new ApiError(404, "Appointments not found for this doctor");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, appointments, "Appointments fetched successfully")
+    );
+});
+
+const getDayOfWeek = (dayNumber) => {
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  return days[dayNumber];
+};
+
+const handleStatusOfAppointment = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { appointmentStatus } = req.body;
+
+  const appointment = await Appointment.findByIdAndUpdate(
+    id,
+    { appointmentStatus },
+    { new: true }
+  );
+
+  if (!appointment) {
+    throw new ApiError(404, "Appointment not found");
+  }
+
+  if (appointmentStatus === 'canceled' || appointmentStatus === 'completed') {
+    const doctor = await Doctor.findById(appointment.doctorRef);
+    if (!doctor) {
+      throw new ApiError(404, "Doctor not found");
+    }
+
+    // Update corresponding time slot to "Available"
+    const timeSlotIndex = doctor.timeSlots.findIndex(slot => 
+      slot.dayOfWeek === getDayOfWeek(appointment.date.getDay()) &&
+      slot.startTime === appointment.startTime
+    );
+
+    if (timeSlotIndex !== -1) {
+      doctor.timeSlots[timeSlotIndex].status = "Available";
+      await doctor.save();
+    }
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, appointment, "Appointment update successfully"));
+});
+
+export {
+  bookAppointment,
+  getAppointmentById,
+  getAppointmentByIdForDoctor,
+  handleStatusOfAppointment,
+};

@@ -24,7 +24,7 @@ const appointmentSchema = new Schema(
     },
     appointmentStatus: {
       type: String,
-      enum: ["pending", "confirmed", "canceled"],
+      enum:["pending", "booked", "completed", "canceled"],
       required: true,
     },
   },

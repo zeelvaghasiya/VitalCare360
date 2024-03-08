@@ -23,6 +23,7 @@ function SignIn() {
 
     if (isDoctor) {
       dispatch(loginDoctor(loginData));
+      localStorage.removeItem("isDoctor")
       navigate("/doctor");
     } else {
       dispatch(loginPatient(loginData));

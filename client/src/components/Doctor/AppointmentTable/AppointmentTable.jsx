@@ -22,14 +22,14 @@ const appointments = [
   },
 ];
 
-function MyAppointment() {
+function AppointmentTable() {
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(
-          "/api/v1/appointments/get-all-appointment-patient"
+          "/api/v1/appointments/get-all-appointment-doctor"
         );
         if (response.status === 200) {
           setAppointments(response.data.data);
@@ -44,6 +44,29 @@ function MyAppointment() {
 
     fetchAppointments();
   }, []);
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      const response = await axios.put(
+        `/api/v1/appointments/handle-status/${id}`,
+        {
+          appointmentStatus: newStatus,
+        }
+      );
+      if (response.status === 200) {
+        const updatedAppointments = appointments.map((appointment) =>
+          appointment._id === id
+            ? { ...appointment, appointmentStatus: newStatus }
+            : appointment
+        );
+        setAppointments(updatedAppointments);
+      } else {
+        throw new Error("Failed to update appointment status");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   console.log("app", appointments);
 
@@ -76,12 +99,6 @@ function MyAppointment() {
                       scope="col"
                       className="px-4 py-3 text-left text-sm font-medium text-gray-700"
                     >
-                      Doctor
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-sm font-medium text-gray-700"
-                    >
                       Appointment Date
                     </th>
                     <th
@@ -95,6 +112,12 @@ function MyAppointment() {
                       className="px-4 py-3 text-left text-sm font-medium text-gray-700"
                     >
                       Status
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-3 text-left text-sm font-medium text-gray-700"
+                    >
+                      Actions
                     </th>
                   </tr>
                 </thead>
@@ -113,11 +136,6 @@ function MyAppointment() {
                             <div className="text-sm text-gray-900">
                               {appointment.patientRef.fullName}
                             </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="text-sm text-gray-900">
-                            Dr. {appointment.doctorRef.fullName}
                           </div>
                         </td>
                         <td className="px-4 py-3">
@@ -144,6 +162,23 @@ function MyAppointment() {
                               appointment.appointmentStatus.slice(1)}
                           </span>
                         </td>
+                        <td className="py-3">
+                          <select
+                            className="inline-block px-2 py-1 rounded-md text-sm border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                            value={appointment.status}
+                            onChange={(e) =>
+                              handleStatusChange(
+                                appointment._id,
+                                e.target.value
+                              )
+                            }
+                          >
+                            <option value="pending">Pending</option>
+                            <option value="booked">Booked</option>
+                            <option value="completed">Completed</option>
+                            <option value="canceled">Canceled</option>
+                          </select>
+                        </td>
                       </tr>
                     ))
                   )}
@@ -157,4 +192,4 @@ function MyAppointment() {
   );
 }
 
-export default MyAppointment;
+export default AppointmentTable;

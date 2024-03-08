@@ -22,6 +22,7 @@ import DProfile from "./components/Doctor/DProfile/DProfile.jsx";
 import AddTimeSlot from "./components/Doctor/AddTimeSlot/AddTimeSlot.jsx";
 import ManageTimeSlot from "./components/Doctor/ManageTimeSlot/ManageTimeSlot.jsx";
 import MyAppointment from "./components/MyAppointment/MyAppointment.jsx";
+import AppointmentTable from "./components/Doctor/AppointmentTable/AppointmentTable.jsx";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "manage-timeslot",
         element: <ManageTimeSlot />,
+      },
+      {
+        path: "appointment-table",
+        element: <AppointmentTable />
       },
       {
         path: "profile",
