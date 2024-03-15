@@ -2,26 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-// Sample array of appointments
-const appointments = [
-  {
-    id: 1,
-    patientName: "John Doe",
-    doctorName: "Dr. Smith",
-    appointmentDate: new Date(2024, 2, 10), // Month is 0-based index (2 represents March)
-    time: "10:00 AM",
-    status: "Confirmed",
-  },
-  {
-    id: 2,
-    patientName: "Alice Johnson",
-    doctorName: "Dr. Brown",
-    appointmentDate: new Date(2024, 2, 15), // Month is 0-based index (2 represents March)
-    time: "2:30 PM",
-    status: "Pending",
-  },
-];
-
 function AppointmentTable() {
   const [appointments, setAppointments] = useState([]);
 
@@ -122,65 +102,68 @@ function AppointmentTable() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {appointments.length === 0 ? (
+                  {appointments.filter((appointment) => !appointment.meetLink)
+                    .length === 0 ? (
                     <tr>
                       <td colSpan="5" className="text-center py-4">
                         No appointments found.
                       </td>
                     </tr>
                   ) : (
-                    appointments.map((appointment, index) => (
-                      <tr key={index}>
-                        <td className="px-4 py-3 text-left">
-                          <div className="flex items-center">
-                            <div className="text-sm text-gray-900">
-                              {appointment.patientRef.fullName}
+                    appointments
+                      .filter((appointment) => !appointment.meetLink)
+                      .map((appointment, index) => (
+                        <tr key={index}>
+                          <td className="px-4 py-3 text-left">
+                            <div className="flex items-center">
+                              <div className="text-sm text-gray-900">
+                                {appointment.patientRef.fullName}
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3">
-                          {new Date(appointment.date).toDateString()}
-                        </td>
-                        <td className="px-4 py-3">{appointment.startTime}</td>
-                        <td className="px-4 py-3">
-                          <span
-                            className={`inline-block px-2 py-1 rounded-md text-sm ${
-                              appointment.appointmentStatus === "completed"
-                                ? "bg-green-200 text-green-800"
-                                : appointment.appointmentStatus === "booked"
-                                ? "bg-blue-200 text-blue-800"
-                                : appointment.appointmentStatus === "canceled"
-                                ? "bg-red-200 text-red-800"
-                                : appointment.appointmentStatus === "pending"
-                                ? "bg-yellow-200 text-yellow-800"
-                                : "" // to prevent error
-                            }`}
-                          >
-                            {appointment.appointmentStatus
-                              .charAt(0)
-                              .toUpperCase() +
-                              appointment.appointmentStatus.slice(1)}
-                          </span>
-                        </td>
-                        <td className="py-3">
-                          <select
-                            className="inline-block px-2 py-1 rounded-md text-sm border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                            value={appointment.status}
-                            onChange={(e) =>
-                              handleStatusChange(
-                                appointment._id,
-                                e.target.value
-                              )
-                            }
-                          >
-                            <option value="pending">Pending</option>
-                            <option value="booked">Booked</option>
-                            <option value="completed">Completed</option>
-                            <option value="canceled">Canceled</option>
-                          </select>
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                          <td className="px-4 py-3">
+                            {new Date(appointment.date).toDateString()}
+                          </td>
+                          <td className="px-4 py-3">{appointment.startTime}</td>
+                          <td className="px-4 py-3">
+                            <span
+                              className={`inline-block px-2 py-1 rounded-md text-sm ${
+                                appointment.appointmentStatus === "completed"
+                                  ? "bg-green-200 text-green-800"
+                                  : appointment.appointmentStatus === "booked"
+                                  ? "bg-blue-200 text-blue-800"
+                                  : appointment.appointmentStatus === "canceled"
+                                  ? "bg-red-200 text-red-800"
+                                  : appointment.appointmentStatus === "pending"
+                                  ? "bg-yellow-200 text-yellow-800"
+                                  : "" // to prevent error
+                              }`}
+                            >
+                              {appointment.appointmentStatus
+                                .charAt(0)
+                                .toUpperCase() +
+                                appointment.appointmentStatus.slice(1)}
+                            </span>
+                          </td>
+                          <td className="py-3">
+                            <select
+                              className="inline-block px-2 py-1 rounded-md text-sm border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                              value={appointment.status}
+                              onChange={(e) =>
+                                handleStatusChange(
+                                  appointment._id,
+                                  e.target.value
+                                )
+                              }
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="booked">Booked</option>
+                              <option value="completed">Completed</option>
+                              <option value="canceled">Canceled</option>
+                            </select>
+                          </td>
+                        </tr>
+                      ))
                   )}
                 </tbody>
               </table>

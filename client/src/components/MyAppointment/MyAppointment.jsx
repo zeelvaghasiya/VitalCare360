@@ -2,26 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-// Sample array of appointments
-const appointments = [
-  {
-    id: 1,
-    patientName: "John Doe",
-    doctorName: "Dr. Smith",
-    appointmentDate: new Date(2024, 2, 10), // Month is 0-based index (2 represents March)
-    time: "10:00 AM",
-    status: "Confirmed",
-  },
-  {
-    id: 2,
-    patientName: "Alice Johnson",
-    doctorName: "Dr. Brown",
-    appointmentDate: new Date(2024, 2, 15), // Month is 0-based index (2 represents March)
-    time: "2:30 PM",
-    status: "Pending",
-  },
-];
-
 function MyAppointment() {
   const [appointments, setAppointments] = useState([]);
 
@@ -94,6 +74,12 @@ function MyAppointment() {
                       scope="col"
                       className="px-4 py-3 text-left text-sm font-medium text-gray-700"
                     >
+                      Meet Link
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-3 text-left text-sm font-medium text-gray-700"
+                    >
                       Status
                     </th>
                   </tr>
@@ -124,6 +110,20 @@ function MyAppointment() {
                           {new Date(appointment.date).toDateString()}
                         </td>
                         <td className="px-4 py-3">{appointment.startTime}</td>
+                        <td className="px-4 py-3">
+                          {appointment.meetLink ? (
+                            <Link
+                              to={appointment.meetLink}
+                              className="text-blue-500 hover:underline"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Join Meeting
+                            </Link>
+                          ) : (
+                            <span className="text-gray-500">No Link Available</span>
+                          )}
+                        </td>
                         <td className="px-4 py-3">
                           <span
                             className={`inline-block px-2 py-1 rounded-md text-sm ${

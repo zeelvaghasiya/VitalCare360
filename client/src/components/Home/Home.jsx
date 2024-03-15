@@ -64,7 +64,7 @@ function Home() {
                     by booking your appointment slot now!
                   </p>
                   <button
-                    to="/patient/diagnosislist"
+                    type="button"
                     className="mt-4 rounded-md bg-blue-400 px-2.5 py-1 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                   >
                     <Link to="/patient/diagnosislist">Secure Slot</Link>
@@ -90,7 +90,7 @@ function Home() {
                     type="button"
                     className="mt-4 rounded-md bg-blue-400 px-2.5 py-1 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                   >
-                    Connect Now
+                    <Link to="/patient/diagnosislist?videoConsult=true">Connect Now</Link>
                   </button>
                 </div>
               </div>

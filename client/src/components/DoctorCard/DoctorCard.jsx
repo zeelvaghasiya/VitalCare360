@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userInfo } from "../../features/userPatient/userPatientSlice";
 import { useNavigate } from "react-router-dom";
 
-function DoctorCard({ info, showPopup, setShowPopup }) {
+function DoctorCard({ info, showPopup, setShowPopup, videoConsult }) {
   const [dates, setDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
@@ -13,6 +13,8 @@ function DoctorCard({ info, showPopup, setShowPopup }) {
   const { user: currentPatient } = useSelector((state) => state.patient);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log("inside doctorCard", videoConsult);
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
@@ -46,32 +48,87 @@ function DoctorCard({ info, showPopup, setShowPopup }) {
     return date.format("dddd");
   };
 
-  const handleAppointmentBooking = () => {
+  const handleAppointmentBooking = async () => {
     if (selectedDate && selectedTimeSlot) {
-      // Send a request to your backend to create a new appointment
-      axios
+      await axios
         .post("/api/v1/appointments/book-appointment", {
-          patientRef: currentPatient.data._id, // Replace with actual patient ID
-          doctorRef: info._id, // Assuming info contains doctor ID
+          patientRef: currentPatient.data._id,
+          doctorRef: info._id,
           date: selectedDate.toDate(),
-          timeSlot: selectedTimeSlot, // Pass the entire selected time slot object
+          timeSlot: selectedTimeSlot,
           appointmentStatus: "pending",
         })
         .then((response) => {
-          // Handle response, e.g., show success message
           console.log("Appointment booked successfully!");
 
           navigate("/patient/my-appointment");
         })
         .catch((error) => {
-          // Handle error
           console.error("Error booking appointment:", error);
         });
     } else {
-      // Handle case where date or time slot is not selected
       console.error("Please select a date and time slot before booking.");
     }
   };
+
+  const handleVideoConsultAppointmentBooking = async () => {
+    if (selectedDate && selectedTimeSlot) {
+      const {
+        data: { key },
+      } = await axios.get("/api/v1/payments/getkey");
+
+      const { data } = await axios.post("/api/v1/payments/checkout", {
+        amount: 20000,
+      });
+
+      const response = data?.data;
+
+      const order = response?.order;
+
+      // console.log("order",order)
+
+      const appointmentData = {
+        patientRef: currentPatient.data._id,
+        doctorRef: info._id,
+        date: selectedDate.toDate(),
+        timeSlot: selectedTimeSlot,
+        appointmentStatus: "pending",
+      };
+
+      const options = {
+        key,
+        amount: order.amount,
+        currency: "INR",
+        name: "vitalCare360",
+        description: "HealthCare System",
+        order_id: order.id,
+        callback_url: `/api/v1/payments/paymentverification-videoconsult?appointmentData=${encodeURIComponent(
+          JSON.stringify(appointmentData)
+        )}`,
+        prefill: {
+          name: currentPatient.fullName,
+          email: currentPatient.email,
+          contact: currentPatient.contactNumber,
+        },
+        notes: {
+          address: "Razorpay Corporate Office",
+        },
+        theme: {
+          color: "#60A5FA",
+        },
+      };
+      const razor = new window.Razorpay(options);
+      razor.open();
+    } else {
+      console.error("Please select a date and time slot before booking.");
+    }
+  };
+
+  const handleBooking =
+    videoConsult == "null"
+      ? handleAppointmentBooking
+      : handleVideoConsultAppointmentBooking;
+  console.log("opwppw", typeof videoConsult);
 
   console.log("info", info.timeSlots);
   console.log("selected date", selectedTimeSlot);
@@ -154,9 +211,11 @@ function DoctorCard({ info, showPopup, setShowPopup }) {
             <div className="mt-4">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleAppointmentBooking}
+                onClick={handleBooking}
               >
-                Book Appointment
+                {videoConsult == "null"
+                  ? "Book Appointment"
+                  : "Book Video Consult Appointment"}
               </button>
             </div>
           </div>

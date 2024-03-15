@@ -90,10 +90,10 @@ const registerPatient = asyncHandler(async (req, res) => {
 const loginPatient = asyncHandler(async (req, res) => {
   // req body -> data
   // username or email
-  //find the user
-  //password check
-  //access and referesh token
-  //send cookie
+  // find the user
+  // password check
+  // access and referesh token
+  // send cookie
 
   const { email, password, user } = req.body;
   // console.log(email);

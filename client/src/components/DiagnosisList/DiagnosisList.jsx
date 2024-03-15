@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import physicianLogo from "../../images/physicianLogo.png";
 import hairLogo from "../../images/hairLogo.png";
 import womenLogo from "../../images/womenLogo.png";
@@ -10,6 +10,10 @@ import eyeLogo from "../../images/eyeLogo.png";
 import heartLogo from "../../images/heartLogo.png";
 
 function DiagnosisList() {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const videoConsult = params.get("videoConsult");
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="grid grid-cols-1 gap-y-8 text-center sm:grid-cols-2 sm:gap-12 lg:grid-cols-5">
@@ -17,7 +21,8 @@ function DiagnosisList() {
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-blue-100">
             <Link
               to={{
-                pathname: `/patient/doctorlist/GeneralPhysician`,
+                pathname: "/patient/doctorlist/GeneralPhysician",
+                search: `?videoConsult=${videoConsult}`,
               }}
             >
               <img
@@ -36,6 +41,7 @@ function DiagnosisList() {
             <Link
               to={{
                 pathname: `/patient/doctorlist/SkinAndHair`,
+                search: `?videoConsult=${videoConsult}`,
               }}
             >
               <img
@@ -53,6 +59,7 @@ function DiagnosisList() {
             <Link
               to={{
                 pathname: `/patient/doctorlist/WomenHealth`,
+                search: `?videoConsult=${videoConsult}`,
               }}
             >
               <img
@@ -70,6 +77,7 @@ function DiagnosisList() {
             <Link
               to={{
                 pathname: `/patient/doctorlist/DentalCare`,
+                search: `?videoConsult=${videoConsult}`,
               }}
             >
               <img
@@ -85,6 +93,7 @@ function DiagnosisList() {
             <Link
               to={{
                 pathname: `/patient/doctorlist/ChildSpecialist`,
+                search: `?videoConsult=${videoConsult}`,
               }}
             >
               <img
@@ -102,6 +111,7 @@ function DiagnosisList() {
             <Link
               to={{
                 pathname: `/patient/doctorlist/Physiotherapist`,
+                search: `?videoConsult=${videoConsult}`,
               }}
             >
               <img
@@ -119,6 +129,7 @@ function DiagnosisList() {
             <Link
               to={{
                 pathname: `/patient/doctorlist/EyeSpecialist`,
+                search: `?videoConsult=${videoConsult}`,
               }}
             >
               <img
@@ -136,6 +147,7 @@ function DiagnosisList() {
             <Link
               to={{
                 pathname: `/patient/doctorlist/Heart`,
+                search: `?videoConsult=${videoConsult}`,
               }}
             >
               <img

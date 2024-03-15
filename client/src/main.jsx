@@ -23,6 +23,7 @@ import AddTimeSlot from "./components/Doctor/AddTimeSlot/AddTimeSlot.jsx";
 import ManageTimeSlot from "./components/Doctor/ManageTimeSlot/ManageTimeSlot.jsx";
 import MyAppointment from "./components/MyAppointment/MyAppointment.jsx";
 import AppointmentTable from "./components/Doctor/AppointmentTable/AppointmentTable.jsx";
+import MeetAppointmentTable from "./components/Doctor/MeetAppointmentTable/MeetAppointmentTable.jsx";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "appointment-table",
         element: <AppointmentTable />
+      },
+      {
+        path: "meet-appointment-table",
+        element: <MeetAppointmentTable />
       },
       {
         path: "profile",

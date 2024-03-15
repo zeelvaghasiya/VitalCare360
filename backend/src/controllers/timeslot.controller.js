@@ -32,7 +32,6 @@ const addTimeSlot = asyncHandler(async (req, res) => {
 });
 
 const viewAllTimeSlot = asyncHandler(async (req, res) => {
-
   const doctor = req.doctor;
 
   return res
@@ -47,16 +46,17 @@ const viewAllTimeSlot = asyncHandler(async (req, res) => {
 });
 
 const deleteTimeSlot = asyncHandler(async (req, res) => {
-
   const { slotId } = req.params;
 
-  const doctor = req.doctor
+  const doctor = req.doctor;
 
   if (!doctor) {
     throw new ApiError(401, "Doctor not found");
   }
 
-  const slotIndex = doctor.timeSlots.findIndex(slot => slot._id.toString() === slotId);
+  const slotIndex = doctor.timeSlots.findIndex(
+    (slot) => slot._id.toString() === slotId
+  );
 
   if (slotIndex === -1) {
     throw new ApiError(401, "Time slot not found");
@@ -68,14 +68,7 @@ const deleteTimeSlot = asyncHandler(async (req, res) => {
 
   return res
     .status(201)
-    .json(
-      new ApiResponse(
-        201,
-        {},
-        "Time slot deleted successfully"
-      )
-    );
-
+    .json(new ApiResponse(201, {}, "Time slot deleted successfully"));
 });
 
-export { addTimeSlot, viewAllTimeSlot, deleteTimeSlot};
+export { addTimeSlot, viewAllTimeSlot, deleteTimeSlot };

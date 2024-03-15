@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import DoctorCard from "../DoctorCard/DoctorCard";
 
-function Card({ info }) {
+function Card({ info,videoConsult }) {
   const [showPopup, setShowPopup] = useState(false);
 
   return (
@@ -12,6 +12,7 @@ function Card({ info }) {
           info={info}
           showPopup={showPopup}
           setShowPopup={setShowPopup}
+          videoConsult={videoConsult}
         />
       )}
       <div className="w-[250px] mx-auto rounded-md border shadow-lg">

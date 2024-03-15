@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import DoctorCard from "../DoctorCard/DoctorCard.jsx";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import Card from "../Card/Card.jsx";
 
 function DoctorList() {
   const { diagnosis } = useParams();
   const [doctors, setDoctors] = useState([]);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const videoConsult = params.get("videoConsult");
+
+  console.log("inside doctorList",videoConsult)
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -38,7 +42,7 @@ function DoctorList() {
         {doctors.data &&
           doctors.data.map((doctor) => (
             <div key={doctor._id}>
-              <Card info={doctor} />
+              <Card info={doctor} videoConsult={videoConsult}/>
             </div>
           ))}
       </div>

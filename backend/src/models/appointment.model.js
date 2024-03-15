@@ -27,6 +27,10 @@ const appointmentSchema = new Schema(
       enum:["pending", "booked", "completed", "canceled"],
       required: true,
     },
+    meetLink: {
+      type: String,
+      default:""
+    }
   },
   {
     timestamps: true,

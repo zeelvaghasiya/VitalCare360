@@ -6,28 +6,23 @@ import { Doctor } from "../models/doctor.model.js";
 import { Patient } from "../models/patient.model.js";
 
 const bookAppointment = asyncHandler(async (req, res) => {
-  // Extract appointment details from the request body
   const { patientRef, doctorRef, date, timeSlot } = req.body;
 
-  // Check for existing appointments for the selected date and time slot
   const existingAppointment = await Appointment.findOne({
     doctorRef,
     date,
     startTime: timeSlot.startTime,
-    appointmentStatus: { $ne: "canceled" }, // Exclude canceled appointments
+    appointmentStatus: { $ne: "canceled" },
   });
 
-  // Check the status of the selected time slot
   if (timeSlot.status !== "Available") {
     throw new ApiError(400, "Selected time slot is not available.");
   }
 
-  // If there's an existing appointment, return an error
   if (existingAppointment) {
     throw new ApiError(400, "Appointment collision detected.");
   }
 
-  // Create a new appointment record
   const appointment = await Appointment.create({
     patientRef,
     doctorRef,
@@ -45,15 +40,12 @@ const bookAppointment = asyncHandler(async (req, res) => {
     );
   }
 
-  // Update the status of the selected time slot to "Booked"
-  // Find the doctor by doctorRef
   const doctor = await Doctor.findById(doctorRef);
 
   if (!doctor) {
     throw new ApiError(500, "Doctor not found");
   }
 
-  // Update the status of the selected time slot to "Booked"
   const updatedTimeSlot = doctor.timeSlots.find(
     (slot) =>
       slot.startTime === timeSlot.startTime &&
@@ -64,12 +56,10 @@ const bookAppointment = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Time slot not found");
   }
 
-  updatedTimeSlot.status = "Booked"; // Or update according to your business logic
+  updatedTimeSlot.status = "Booked";
 
-  // Save the updated doctor document
   await doctor.save();
 
-  // Return success response
   return res
     .status(201)
     .json(
@@ -91,13 +81,13 @@ const getAppointmentById = asyncHandler(async (req, res) => {
   const appointments = await Appointment.find({ patientRef: patientId })
     .populate({
       path: "patientRef",
-      model: "Patient", // Use string instead of object
-      select: "fullName", // Select only the fullName field
+      model: "Patient",
+      select: "fullName",
     })
     .populate({
       path: "doctorRef",
-      model: "Doctor", // Use string instead of object
-      select: "fullName", // Select only the fullName field
+      model: "Doctor",
+      select: "fullName",
     });
 
   if (!appointments || appointments.length === 0) {
@@ -138,7 +128,15 @@ const getAppointmentByIdForDoctor = asyncHandler(async (req, res) => {
 });
 
 const getDayOfWeek = (dayNumber) => {
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
   return days[dayNumber];
 };
 
@@ -156,16 +154,16 @@ const handleStatusOfAppointment = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Appointment not found");
   }
 
-  if (appointmentStatus === 'canceled' || appointmentStatus === 'completed') {
+  if (appointmentStatus === "canceled" || appointmentStatus === "completed") {
     const doctor = await Doctor.findById(appointment.doctorRef);
     if (!doctor) {
       throw new ApiError(404, "Doctor not found");
     }
 
-    // Update corresponding time slot to "Available"
-    const timeSlotIndex = doctor.timeSlots.findIndex(slot => 
-      slot.dayOfWeek === getDayOfWeek(appointment.date.getDay()) &&
-      slot.startTime === appointment.startTime
+    const timeSlotIndex = doctor.timeSlots.findIndex(
+      (slot) =>
+        slot.dayOfWeek === getDayOfWeek(appointment.date.getDay()) &&
+        slot.startTime === appointment.startTime
     );
 
     if (timeSlotIndex !== -1) {
