@@ -7,7 +7,6 @@ import { loginDoctor } from "../../features/auth/authDoctor/authDoctorSlice";
 
 function SignIn() {
   const [loginData, setLoginData] = useState({});
-  const [isDoctor, setIsDoctor] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,16 +17,27 @@ function SignIn() {
 
   console.log(loginData);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (isDoctor) {
-      dispatch(loginDoctor(loginData));
-      localStorage.removeItem("isDoctor")
-      navigate("/doctor");
-    } else {
-      dispatch(loginPatient(loginData));
-      navigate("/patient/home");
+    try {
+      const isDoc = localStorage.getItem("isDoc")
+      const response = (isDoc === "true")
+        ? await dispatch(loginDoctor(loginData))
+        : await dispatch(loginPatient(loginData));
+
+      if (response.payload.success) {
+        window.alert("Signin successful!");
+        navigate((isDoc === "true") ? "/doctor" : "/patient/home");
+        if (isDoc === "true") {
+          localStorage.removeItem("isDoc");
+        }
+      } else {
+        throw new Error("Login failed.");
+      }
+    } catch (error) {
+      window.alert("An error occurred. Please try again later.");
+      console.error(error);
     }
   };
 
@@ -43,11 +53,10 @@ function SignIn() {
             Don&apos;t have an account?{" "}
             <Link
               to={
-                localStorage.getItem("isDoctor") === "true"
+                localStorage.getItem("isDoc") === "true"
                   ? "/doctorSignup"
                   : "/signup"
               }
-              onClick={() => localStorage.removeItem("isDoctor")}
               title=""
               className="font-semibold text-black transition-all duration-200 hover:underline"
             >
@@ -105,46 +114,6 @@ function SignIn() {
                     name="password"
                     onChange={getLoginData}
                   ></input>
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="gender"
-                  className="text-base font-medium text-gray-900"
-                >
-                  {" "}
-                  Select : Who are you ?{" "}
-                </label>
-                <div className="mt-2">
-                  <div className="flex">
-                    <div className="flex items-center">
-                      <input
-                        className="form-radio h-4 w-4 text-gray-600 border-gray-300"
-                        name="user"
-                        value="Patient"
-                        type="radio"
-                        required
-                        onChange={(e) => {
-                          getLoginData(e);
-                          setIsDoctor(false);
-                        }}
-                      />
-                      <span className="ml-2 text-gray-700 mr-8">Patient</span>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        className="form-radio h-4 w-4 text-gray-600 border-gray-300"
-                        name="user"
-                        value="Doctor"
-                        type="radio"
-                        onChange={(e) => {
-                          getLoginData(e);
-                          setIsDoctor(true);
-                        }}
-                      />
-                      <span className="ml-2 text-gray-700">Doctor</span>
-                    </div>
-                  </div>
                 </div>
               </div>
               <div>

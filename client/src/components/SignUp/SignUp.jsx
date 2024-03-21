@@ -21,11 +21,20 @@ function SignUp() {
 
   console.log("userData", userData);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("users...", userData);
-    dispatch(createPatient(userData));
-    navigate("/signin");
+    try {
+      const response =await dispatch(createPatient(userData));
+      console.log("response",response.payload.success)
+      if (response.payload.success) {
+        window.alert("Signup successful!")
+        navigate("/signin");
+      } else {
+        window.alert("An error occurred. Please try again later.")
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (

@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MainPageCard from "../MainPageCard/MainPageCard";
 
 function MainPage() {
+  useEffect(() => {
+    if(localStorage.getItem("isDoc"))
+    {
+      localStorage.removeItem("isDoc")
+    }
+  })
   return (
     <div className="relative w-full bg-white">
       <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">

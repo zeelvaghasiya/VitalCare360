@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
-function MainPageCard({ userInfo, url}) {
+function MainPageCard({ userInfo, url }) {
   return (
     <div className="w-[300px] rounded-md border mb-4 mr-8">
       <img
@@ -14,7 +14,16 @@ function MainPageCard({ userInfo, url}) {
           type="button"
           className="w-full rounded-md bg-blue-400 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
         >
-          <Link to={url}>Login/SignUp as a {userInfo}</Link>
+          <Link
+            to={url}
+            onClick={() => {
+              userInfo == "Doctor"
+                ? localStorage.setItem("isDoc", true)
+                : localStorage.setItem("isDoc", false);
+            }}
+          >
+            Login/SignUp as a {userInfo}
+          </Link>
         </button>
       </div>
     </div>

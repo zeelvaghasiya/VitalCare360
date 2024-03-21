@@ -107,7 +107,7 @@ const loginDoctor = asyncHandler(async (req, res) => {
   // access and referesh token
   // send cookie
 
-  const { email, password, user } = req.body;
+  const { email, password } = req.body;
   // console.log(email);
 
   if (!email) {
@@ -118,55 +118,49 @@ const loginDoctor = asyncHandler(async (req, res) => {
     throw new ApiError(400, "password is required");
   }
 
-  if (!user) {
-    throw new ApiError(400, "user is required");
+  const doctor = await Doctor.findOne({ email });
+
+  if (!doctor) {
+    throw new ApiError(404, "Doctor does not exist");
   }
 
-  if (user === "Doctor") {
-    const doctor = await Doctor.findOne({ email });
+  const isPasswordValid = await doctor.isPasswordCorrect(password);
 
-    if (!doctor) {
-      throw new ApiError(404, "Doctor does not exist");
-    }
-
-    const isPasswordValid = await doctor.isPasswordCorrect(password);
-
-    if (!isPasswordValid) {
-      throw new ApiError(401, "Invalid doctor credentials");
-    }
-
-    const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
-      doctor._id
-    );
-
-    const loggedInDoctor = await Doctor.findById(doctor._id).select(
-      "-password -refreshToken"
-    );
-
-    // cookie mate option set karvani jarur pade, je ak object 6
-    // cookie khali server side thi j modified thay sake , frontend side only joie sakay
-    const options = {
-      sameSite: "None",
-      httpOnly: true,
-      secure: true,
-    };
-
-    return res
-      .status(200)
-      .cookie("accessToken", accessToken, options)
-      .cookie("refreshToken", refreshToken, options)
-      .json(
-        new ApiResponse(
-          200,
-          {
-            user: loggedInDoctor,
-            accessToken,
-            refreshToken,
-          },
-          "Doctor logged In Successfully"
-        )
-      );
+  if (!isPasswordValid) {
+    throw new ApiError(401, "Invalid doctor credentials");
   }
+
+  const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
+    doctor._id
+  );
+
+  const loggedInDoctor = await Doctor.findById(doctor._id).select(
+    "-password -refreshToken"
+  );
+
+  // cookie mate option set karvani jarur pade, je ak object 6
+  // cookie khali server side thi j modified thay sake , frontend side only joie sakay
+  const options = {
+    sameSite: "None",
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        {
+          user: loggedInDoctor,
+          accessToken,
+          refreshToken,
+        },
+        "Doctor logged In Successfully"
+      )
+    );
 });
 
 const logoutDoctor = asyncHandler(async (req, res) => {

@@ -21,11 +21,21 @@ function DoctorForm() {
 
   console.log("doctor data",doctorData);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("doctor...", doctorData);
-    dispatch(createDoctor(doctorData));
-    navigate("/signin");
+    
+    try {
+      const response =await dispatch(createDoctor(doctorData));
+      console.log("response",response.payload.success)
+      if (response.payload.success) {
+        window.alert("Signup successful!")
+        navigate("/signin");
+      } else {
+        window.alert("An error occurred. Please try again later.")
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -40,7 +50,6 @@ function DoctorForm() {
             Already have an account?{" "}
             <Link
               to="/signin"
-              onClick={() => {localStorage.setItem("isDoctor","true")}}
               title=""
               className="font-semibold text-black transition-all duration-200 hover:underline"
             >
