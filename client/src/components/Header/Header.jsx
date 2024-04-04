@@ -20,6 +20,10 @@ const menuItems = [
     name: "Contact",
     href: "/patient/contactus",
   },
+  {
+    name: "Medical Records",
+    href: "/patient/medical-records",
+  },
 ];
 
 function Header() {

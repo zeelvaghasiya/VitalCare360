@@ -15,7 +15,8 @@ const instance = new Razorpay({
 
 const generateMeetLink = async (patientRef, doctorRef, date, startTime) => {
   const sharedIdentifier = `${patientRef}-${doctorRef}`;
-  const meetLink = `https://meet.google.com/new?shared=${sharedIdentifier}&date=${date}&startTime=${startTime}`;
+  const meetLink = `https://meet.google.com/hks-tchs-inh`;
+  console.log("inside generateMeetLink",meetLink)
   return meetLink;
 };
 
@@ -102,6 +103,9 @@ const paymentVerificationAndBookVideoConsult = asyncHandler(
         date,
         timeSlot.startTime
       );
+
+      // const meetLink = "https://meet.google.com/hks-tchs-inh"
+
 
       console.log("meet link", meetLink);
 

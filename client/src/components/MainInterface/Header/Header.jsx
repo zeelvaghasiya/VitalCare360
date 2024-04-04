@@ -5,22 +5,22 @@ import { Menu, X } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const menuItems = [
-  {
-    name: "Home",
-    href: "/",
-  },
-  {
-    name: "About",
-    href: "/about",
-  },
-  {
-    name: "Blog",
-    href: "/blog",
-  },
-  {
-    name: "Contact",
-    href: "/contactus",
-  },
+  // {
+  //   name: "Home",
+  //   href: "/",
+  // },
+  // {
+  //   name: "About",
+  //   href: "/about",
+  // },
+  // {
+  //   name: "Blog",
+  //   href: "/blog",
+  // },
+  // {
+  //   name: "Contact",
+  //   href: "/contactus",
+  // },
 ];
 
 function Header() {

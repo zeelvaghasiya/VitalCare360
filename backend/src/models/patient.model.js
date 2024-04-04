@@ -95,6 +95,20 @@ const patientSchema = new Schema(
         type: String,
       },
     ],
+    pastMedicalRecords: [
+      {
+        recordUrl: {
+          type: String,
+        },
+        recordName: {
+          type: String,
+        },
+        description: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

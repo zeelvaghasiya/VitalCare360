@@ -24,6 +24,7 @@ import ManageTimeSlot from "./components/Doctor/ManageTimeSlot/ManageTimeSlot.js
 import MyAppointment from "./components/MyAppointment/MyAppointment.jsx";
 import AppointmentTable from "./components/Doctor/AppointmentTable/AppointmentTable.jsx";
 import MeetAppointmentTable from "./components/Doctor/MeetAppointmentTable/MeetAppointmentTable.jsx";
+import MedicalRecord from "./components/MedicalRecord/MedicalRecord.jsx";
 
 const router = createBrowserRouter([
   {
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
       {
         path: "my-appointment",
         element: <MyAppointment />,
+      },
+      {
+        path: "medical-records",
+        element: <MedicalRecord />,
       },
       {
         path: "contactus",

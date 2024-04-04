@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { Patient } from "../models/patient.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import fs from "fs";
 import jwt from "jsonwebtoken";
 
 const generateAccessAndRefereshTokens = async (patientId) => {
@@ -338,6 +339,51 @@ const addSurgeries = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updatedPatient, "Surgery added successfully"));
 });
 
+const uploadRecords = asyncHandler(async (req, res) => {
+  if (!req.files) {
+    throw new ApiError(400, "No file uploaded");
+  }
+
+  const {recordName,description} = req.body
+
+  if (
+    [recordName, description].some(
+      (field) => field?.trim() === ""
+    )
+  ) {
+    throw new ApiError(400, "All fields are required");
+  }
+
+  const cloudinaryResponse = await uploadOnCloudinary(req.files?.image[0]?.path);
+
+  if (!cloudinaryResponse) {
+    throw new ApiError(400, "file is not uploaded on cloudinary");
+  }
+
+  const newRecord = {
+    recordUrl: cloudinaryResponse.secure_url,
+    recordName: recordName,
+    description: description,
+  };
+
+  const patientId = req.patient._id;
+  const updatedPatient = await Patient.findByIdAndUpdate(
+    patientId,
+    { $push: { pastMedicalRecords: newRecord } },
+    { new: true }
+  );
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { cloudinaryResponse, updatedPatient },
+        "Report is successfully uploaded on Cloudinary"
+      )
+    );
+});
+
 export {
   registerPatient,
   loginPatient,
@@ -349,4 +395,5 @@ export {
   addChronicDisease,
   addInjuries,
   addSurgeries,
+  uploadRecords,
 };
