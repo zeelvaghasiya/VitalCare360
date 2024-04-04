@@ -384,6 +384,19 @@ const uploadRecords = asyncHandler(async (req, res) => {
     );
 });
 
+const getRecords = asyncHandler(async (req, res) => {
+  const patient = await Patient.findById(req.patient._id);
+    if (!patient) {
+      throw new ApiError(400, "Patient not found");
+    }
+
+    const pastMedicalRecords = patient.pastMedicalRecords;
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, pastMedicalRecords, "Past Medical Records is fetched successfully"));
+});
+
 export {
   registerPatient,
   loginPatient,
@@ -396,4 +409,5 @@ export {
   addInjuries,
   addSurgeries,
   uploadRecords,
+  getRecords
 };
