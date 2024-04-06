@@ -344,17 +344,15 @@ const uploadRecords = asyncHandler(async (req, res) => {
     throw new ApiError(400, "No file uploaded");
   }
 
-  const {recordName,description} = req.body
+  const { recordName, description } = req.body;
 
-  if (
-    [recordName, description].some(
-      (field) => field?.trim() === ""
-    )
-  ) {
+  if ([recordName, description].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "All fields are required");
   }
 
-  const cloudinaryResponse = await uploadOnCloudinary(req.files?.image[0]?.path);
+  const cloudinaryResponse = await uploadOnCloudinary(
+    req.files?.image[0]?.path
+  );
 
   if (!cloudinaryResponse) {
     throw new ApiError(400, "file is not uploaded on cloudinary");
@@ -386,15 +384,52 @@ const uploadRecords = asyncHandler(async (req, res) => {
 
 const getRecords = asyncHandler(async (req, res) => {
   const patient = await Patient.findById(req.patient._id);
-    if (!patient) {
-      throw new ApiError(400, "Patient not found");
-    }
+  if (!patient) {
+    throw new ApiError(400, "Patient not found");
+  }
 
-    const pastMedicalRecords = patient.pastMedicalRecords;
+  const pastMedicalRecords = patient.pastMedicalRecords;
 
-    return res
+  return res
     .status(200)
-    .json(new ApiResponse(200, pastMedicalRecords, "Past Medical Records is fetched successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        pastMedicalRecords,
+        "Past Medical Records is fetched successfully"
+      )
+    );
+});
+
+const deleteRecord = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const patient = await Patient.findById(req.patient._id);
+
+  if (!patient) {
+    throw new ApiError(400, "Patient not found");
+  }
+
+  const recordIndex = patient.pastMedicalRecords.findIndex(
+    (record) => record._id.toString() === id
+  );
+
+  if (recordIndex === -1) {
+      throw new ApiError(400, "Medical record not found for this patient");
+  }
+
+  patient.pastMedicalRecords.splice(recordIndex, 1);
+  await patient.save();
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        patient.pastMedicalRecords,
+        "Medical record deleted from patient successfully"
+      )
+    );
 });
 
 export {
@@ -409,5 +444,6 @@ export {
   addInjuries,
   addSurgeries,
   uploadRecords,
-  getRecords
+  getRecords,
+  deleteRecord,
 };

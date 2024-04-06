@@ -39,6 +39,8 @@ const MedicalRecord = () => {
       setRecordName("");
       setDescription("");
       setImage(null);
+
+      fetchMedicalRecords();
     } catch (error) {
       alert("Error adding medical record. Please try again.");
       console.error(error);
@@ -46,7 +48,6 @@ const MedicalRecord = () => {
   };
 
   useEffect(() => {
-    // Fetch medical records when component mounts
     fetchMedicalRecords();
   }, []);
 
@@ -72,6 +73,17 @@ const MedicalRecord = () => {
     setModalImageUrl("");
     setModalRecordName("");
     setModalDescription("");
+  };
+
+  const handleDeleteRecord = async (recordId) => {
+    try {
+      await axios.delete(`/api/v1/patients/medical-records/${recordId}`);
+      alert("Medical record deleted successfully!");
+      fetchMedicalRecords(); // Refresh medical records after deletion
+    } catch (error) {
+      alert("Error deleting medical record. Please try again.");
+      console.error(error);
+    }
   };
 
   return (
@@ -127,6 +139,15 @@ const MedicalRecord = () => {
               />
               <h3 className="text-lg font-semibold">{record.recordName}</h3>
               <p className="text-sm text-gray-500">{record.description}</p>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteRecord(record._id);
+                }}
+                className="mt-2 bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded-md text-sm"
+              >
+                Delete
+              </button>
             </div>
           ))}
         </div>

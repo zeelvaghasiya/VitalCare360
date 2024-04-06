@@ -11,7 +11,8 @@ import {
   addInjuries,
   addSurgeries,
   uploadRecords,
-  getRecords
+  getRecords,
+  deleteRecord
 } from "../controllers/patient.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -40,6 +41,7 @@ router.route("/add-chronicdisease").patch(verifyJWT, addChronicDisease);
 router.route("/add-injury").patch(verifyJWT, addInjuries);
 router.route("/add-surgery").patch(verifyJWT, addSurgeries);
 router.route("/medical-records").get(verifyJWT, getRecords);
+router.route("/medical-records/:id").delete(verifyJWT,deleteRecord)
 router.route("/upload-record").post(
   verifyJWT,
   upload.fields([
