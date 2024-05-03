@@ -134,7 +134,7 @@ function DoctorCard({ info, showPopup, setShowPopup, videoConsult }) {
   console.log("selected date", selectedTimeSlot);
 
   return (
-    <div className="bg-black bg-opacity-50 flex justify-center items-center fixed top-0 left-0 right-0 bottom-0">
+    <div className="bg-black bg-opacity-50 flex justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-10">
       <div className="rounded-md border bg-white">
         <div className="flex justify-center my-4">
           <button

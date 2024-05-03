@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import DoctorImg from "../../images/doctor.jpg";
-import AS from "../../images/AS.png"
-import HRM from "../../images/HRM.png"
-import DC from "../../images/DC.png"
-import AH from "../../images/AH.png"
+import AS from "../../images/AS.png";
+import HRM from "../../images/HRM.png";
+import DC from "../../images/DC.png";
+import AH from "../../images/AH.png";
 
 const menuItems = [
   {
@@ -34,6 +36,11 @@ function Home() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
+
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -51,7 +58,12 @@ function Home() {
               overall healthcare experiences.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-6">
-              <div className="w-full md:w-[350px] rounded-md border bg-gray-200">
+              <div
+                className="w-full md:w-[350px] rounded-md border bg-gray-200"
+                data-aos="fade-right"
+                data-aos-offset="300"
+                data-aos-easing="ease"
+              >
                 <img
                   src={DoctorImg}
                   alt="doctor"
@@ -72,7 +84,12 @@ function Home() {
                 </div>
               </div>
 
-              <div className="w-full md:w-[350px] rounded-md border bg-gray-200">
+              <div
+                className="w-full md:w-[350px] rounded-md border bg-gray-200"
+                data-aos="fade-left"
+                data-aos-offset="300"
+                data-aos-easing="ease"
+              >
                 <img
                   src="https://www.gigadocs.com/blog/wp-content/uploads/2020/05/close-up-business-man-sit-home-having-online-consultation-with-doctor-tablet-reduce-social-distance-healthcare-concept_43157-1034.jpg"
                   alt="Laptop"
@@ -90,7 +107,9 @@ function Home() {
                     type="button"
                     className="mt-4 rounded-md bg-blue-400 px-2.5 py-1 text-lg font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                   >
-                    <Link to="/patient/diagnosislist?videoConsult=true">Connect Now</Link>
+                    <Link to="/patient/diagnosislist?videoConsult=true">
+                      Connect Now
+                    </Link>
                   </button>
                 </div>
               </div>
@@ -117,7 +136,11 @@ function Home() {
           </p>
         </div>
         <div className="mt-12 grid grid-cols-1 gap-y-8 text-center sm:grid-cols-2 sm:gap-12 lg:grid-cols-4">
-          <div>
+          <div
+            data-aos="flip-left"
+            data-aos-easing="ease-out-cubic"
+            data-aos-duration="2000"
+          >
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
               <img className="h-12 w-12 text-gray-700" src={AS} />
             </div>
@@ -129,7 +152,11 @@ function Home() {
               online.
             </p>
           </div>
-          <div>
+          <div
+            data-aos="flip-left"
+            data-aos-easing="ease-out-cubic"
+            data-aos-duration="2000"
+          >
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
               <img className="h-12 w-12 text-gray-700" src={HRM} />
             </div>
@@ -141,7 +168,11 @@ function Home() {
               medical records and history.
             </p>
           </div>
-          <div>
+          <div
+            data-aos="flip-left"
+            data-aos-easing="ease-out-cubic"
+            data-aos-duration="2000"
+          >
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
               <img className="h-12 w-12 text-gray-700" src={DC} />
             </div>
@@ -153,7 +184,11 @@ function Home() {
               credentials, specialties, and experience.
             </p>
           </div>
-          <div>
+          <div
+            data-aos="flip-left"
+            data-aos-easing="ease-out-cubic"
+            data-aos-duration="2000"
+          >
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
               <img className="h-12 w-12 text-gray-700" src={AH} />
             </div>

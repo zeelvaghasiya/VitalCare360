@@ -7,7 +7,8 @@ import {
   getCurrentDoctor,
   updateDoctorDetails,
   editDoctorInfo,
-  getDoctorById
+  getDoctorById,
+  searchPatientRecord
 } from "../controllers/doctor.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyDoctorJWT } from "../middlewares/auth.middleware.js";
@@ -44,5 +45,6 @@ router
 router.route("/add-timeslot").post(verifyDoctorJWT, addTimeSlot);
 router.route("/view-all-timeslots").get(verifyDoctorJWT, viewAllTimeSlot);
 router.route("/time-slots/:slotId").delete(verifyDoctorJWT, deleteTimeSlot);
+router.route("/past-records").get(verifyDoctorJWT, searchPatientRecord);
 
 export default router;

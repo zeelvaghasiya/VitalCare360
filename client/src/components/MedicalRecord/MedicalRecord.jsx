@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ImageModal from "../ImageModal/ImageModal";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const MedicalRecord = () => {
   const [recordName, setRecordName] = useState("");
@@ -86,12 +88,17 @@ const MedicalRecord = () => {
     }
   };
 
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
+
   return (
-    <div className="bg-gray-100 p-2 sm:p-4 lg:p-6 xl:p-12">
-      <div className="mt-2">
+    <div className="p-2 sm:p-4 lg:p-6 xl:p-12">
+      <div>
         <form
           onSubmit={handleSubmit}
-          className="max-w-lg mx-auto p-3 bg-white rounded-xl shadow-md"
+          className="max-w-lg mx-auto bg-white p-3 rounded-xl shadow-md"
         >
           <div className="mb-4 flex flex-col">
             <input
@@ -131,6 +138,8 @@ const MedicalRecord = () => {
               key={index}
               onClick={() => handleRecordClick(record)}
               className="bg-white p-4 rounded-md shadow-md cursor-pointer hover:shadow-lg transition duration-300"
+              data-aos="zoom-in"
+              data-aos-duration="1500"
             >
               <img
                 src={record.recordUrl}

@@ -25,6 +25,7 @@ import MyAppointment from "./components/MyAppointment/MyAppointment.jsx";
 import AppointmentTable from "./components/Doctor/AppointmentTable/AppointmentTable.jsx";
 import MeetAppointmentTable from "./components/Doctor/MeetAppointmentTable/MeetAppointmentTable.jsx";
 import MedicalRecord from "./components/MedicalRecord/MedicalRecord.jsx";
+import PatientDetails from "./components/Doctor/PatientDetails/PatientDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "meet-appointment-table",
         element: <MeetAppointmentTable />
+      },
+      {
+        path: "patient-details",
+        element: <PatientDetails />,
       },
       {
         path: "profile",

@@ -4,6 +4,7 @@ import { Doctor } from "../models/doctor.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import { Patient } from "../models/patient.model.js";
 
 const generateAccessAndRefereshTokens = async (doctorId) => {
   try {
@@ -259,6 +260,26 @@ const editDoctorInfo = asyncHandler(async (req, res) => {
     );
 });
 
+const searchPatientRecord = asyncHandler(async (req, res) => {
+  let fullName = req.query.fullName;
+  fullName = decodeURIComponent(fullName);
+
+  const patient = await Patient.findOne({ fullName });
+  if (!patient) {
+    throw new ApiError(404, "Patient not found");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { pastMedicalRecords: patient.pastMedicalRecords },
+        "fetched patient records successfully"
+      )
+    );
+});
+
 export {
   registerDoctor,
   getAllDoctorByCategory,
@@ -268,4 +289,5 @@ export {
   updateDoctorDetails,
   editDoctorInfo,
   getDoctorById,
+  searchPatientRecord,
 };
