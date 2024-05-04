@@ -53,7 +53,6 @@ const doctorSchema = new Schema(
         "Heart",
       ],
     },
-
     eduQualification: [
       {
         type: String,
@@ -61,6 +60,10 @@ const doctorSchema = new Schema(
         trim: true,
       },
     ],
+    address: {
+      type: String,
+      required: true,
+    },
     clinicDetails: [
       {
         type: String,

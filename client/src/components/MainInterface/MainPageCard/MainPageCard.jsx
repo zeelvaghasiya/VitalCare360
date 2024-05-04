@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 function MainPageCard({ userInfo, url }) {
+
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
+
   return (
-    <div className="w-[300px] rounded-md border mb-4 mr-8">
+    <div className="w-[300px] rounded-md border mb-4 mr-8" data-aos="zoom-in">
       <img
         src="https://images.unsplash.com/photo-1522199755839-a2bacb67c546?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGJsb2d8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
         alt="Laptop"

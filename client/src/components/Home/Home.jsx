@@ -230,13 +230,13 @@ function Home() {
           </div>
           <p className="mt-10 text-center text-gray-600">
             Can&apos;t find what you&apos;re looking for?{" "}
-            <a
-              href="#"
+            <Link
+              to="/patient/contactus"
               title=""
               className="black font-semibold hover:underline"
             >
               Contact us
-            </a>
+            </Link>
           </p>
         </div>
       </section>

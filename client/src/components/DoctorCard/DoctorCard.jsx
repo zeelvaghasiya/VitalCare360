@@ -25,15 +25,24 @@ function DoctorCard({ info, showPopup, setShowPopup, videoConsult }) {
   }, []);
 
   useEffect(() => {
-    const getNextSevenDays = () => {
+    const getNextSixDays = () => {
       const today = moment();
-      const nextSevenDays = Array.from({ length: 7 }, (_, i) =>
-        today.clone().add(i, "days")
-      );
-      setDates(nextSevenDays);
+      let nextSixDays = [];
+      let daysToAdd = 1; // Start from tomorrow
+
+      while (nextSixDays.length < 6) {
+        const nextDay = today.clone().add(daysToAdd, "days");
+        if (nextDay.day() !== 0) {
+          // Exclude Sundays
+          nextSixDays.push(nextDay);
+        }
+        daysToAdd++;
+      }
+
+      setDates(nextSixDays);
     };
 
-    getNextSevenDays();
+    getNextSixDays();
   }, []);
 
   const handleDateSelect = (date) => {
@@ -133,6 +142,14 @@ function DoctorCard({ info, showPopup, setShowPopup, videoConsult }) {
   console.log("info", info.timeSlots);
   console.log("selected date", selectedTimeSlot);
 
+  const handleAddressClick = () => {
+    const address = encodeURIComponent(info.address);
+    window.open(
+      `https://www.google.com/maps/search/?api=1&query=${address}`,
+      "_blank"
+    );
+  };
+
   return (
     <div className="bg-black bg-opacity-50 flex justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-10">
       <div className="rounded-md border bg-white">
@@ -160,7 +177,16 @@ function DoctorCard({ info, showPopup, setShowPopup, videoConsult }) {
             <p className="mt-2 text-sm text-gray-600">{info.gender}</p>
             <p className="text-sm text-gray-600">{info.speciality}</p>
             <p className="text-sm text-gray-600">{info.eduQualification[0]}</p>
-            <p className="mt-3 text-sm text-gray-600">{info.personalInfo}</p>
+            <p className="my-3 text-sm text-gray-600">{info.personalInfo}</p>
+            <h1 className="text-sm text-gray-600">
+              <span className="font-semibold text-black">Clinic Address</span> :{" "}
+              <span
+                className="text-blue-500 cursor-pointer"
+                onClick={handleAddressClick}
+              >
+                {info.address}
+              </span>
+            </h1>
             <div className="mt-4">
               <p className="text-lg font-semibold mb-1">Select Date :</p>
               <div>

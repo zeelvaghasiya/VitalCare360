@@ -33,6 +33,7 @@ const registerDoctor = asyncHandler(async (req, res) => {
     password,
     speciality,
     eduQualification,
+    address
   } = req.body;
   console.log("doctor: ", req.body);
 
@@ -45,6 +46,7 @@ const registerDoctor = asyncHandler(async (req, res) => {
       password,
       speciality,
       eduQualification,
+      address
     ].some((field) => field?.trim() === "")
   ) {
     throw new ApiError(400, "All fields are required");
@@ -80,6 +82,7 @@ const registerDoctor = asyncHandler(async (req, res) => {
     password,
     speciality,
     eduQualification,
+    address
   });
 
   const createdDoctor = await Doctor.findById(doctor._id).select(
