@@ -4,8 +4,9 @@ import {
   BarChart,
   Wallet,
   Newspaper,
-  BellRing,
-  Paperclip,
+  LogOut,
+  Projector,
+  BookUser,
   Brush,
   Wrench,
 } from "lucide-react";
@@ -79,7 +80,7 @@ function Dashboard() {
               className="w-full flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
               type="button"
             >
-              <BellRing className="h-5 w-5" aria-hidden="true" />
+              <Projector className="h-5 w-5" aria-hidden="true" />
               <Link
                 className="text-left w-full mx-2 text-sm font-medium"
                 to="meet-appointment-table"
@@ -91,7 +92,7 @@ function Dashboard() {
               className="w-full flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
               type="button"
             >
-              <BellRing className="h-5 w-5" aria-hidden="true" />
+              <BookUser className="h-5 w-5" aria-hidden="true" />
               <Link
                 className="text-left w-full mx-2 text-sm font-medium"
                 to="patient-details"
@@ -122,7 +123,7 @@ function Dashboard() {
               type="button"
               onClick={handleLogout}
             >
-              <Wrench className="h-5 w-5" aria-hidden="true" />
+              <LogOut className="h-5 w-5" aria-hidden="true" />
               <Link className="text-left w-full mx-2 text-sm font-medium">
                 Logout
               </Link>

@@ -113,7 +113,7 @@ function MyAppointment() {
                         <td className="px-4 py-3">
                           {appointment.meetLink ? (
                             <Link
-                              to={`https://meet.google.com/hks-tchs-inh`}
+                              to={`https://meet.google.com/qnz-ynwe-scq`}
                               className="text-blue-500 hover:underline"
                               target="_blank"
                               rel="noopener noreferrer"
