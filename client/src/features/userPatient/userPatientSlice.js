@@ -44,6 +44,21 @@ export const addAllergy = createAsyncThunk(
   }
 );
 
+// delete allergy 
+export const deleteAllergy = createAsyncThunk(
+  "deleteAllergy",
+  async (allergyName, { rejectWithValue }) => {
+    try {
+      console.log("my name is zeel")
+      const response = await axios.delete(`/api/v1/patients/delete-allergy/${allergyName}`);
+      console.log("after deleting allergy", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 // add chronicdisease 
 export const addChronicdisease = createAsyncThunk(
   "chronicdisease",
@@ -51,6 +66,20 @@ export const addChronicdisease = createAsyncThunk(
     try {
       const response = await axios.patch("/api/v1/patients/add-chronicdisease",{chronicDisease : data});
       console.log("after adding chronicdisease", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// delete chronicdisease 
+export const deleteChronicdisease = createAsyncThunk(
+  "deleteChronicdisease",
+  async (chronicdiseaseName, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`/api/v1/patients/delete-chronicdisease/${chronicdiseaseName}`);
+      console.log("after deleting Chronic Disease", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -72,6 +101,20 @@ export const addInjury = createAsyncThunk(
   }
 );
 
+// delete injury 
+export const deleteInjury = createAsyncThunk(
+  "deleteInjury",
+  async (injuryName, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`/api/v1/patients/delete-injury/${injuryName}`);
+      console.log("after deleting injury", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 // add surgery 
 export const addSurgery = createAsyncThunk(
   "surgery",
@@ -79,6 +122,20 @@ export const addSurgery = createAsyncThunk(
     try {
       const response = await axios.patch("/api/v1/patients/add-surgery",{surgery : data});
       console.log("after adding surgery", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// delete surgery 
+export const deleteSurgery = createAsyncThunk(
+  "deleteSurgery",
+  async (surgeryName, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`/api/v1/patients/delete-surgery/${surgeryName}`);
+      console.log("after deleting surgery", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -138,6 +195,17 @@ export const userPatient = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(deleteAllergy.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteAllergy.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(deleteAllergy.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       .addCase(addChronicdisease.pending, (state) => {
         state.loading = true;
       })
@@ -146,6 +214,17 @@ export const userPatient = createSlice({
         state.user = action.payload;
       })
       .addCase(addChronicdisease.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteChronicdisease.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteChronicdisease.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(deleteChronicdisease.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
@@ -160,6 +239,17 @@ export const userPatient = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(deleteInjury.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteInjury.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(deleteInjury.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       .addCase(addSurgery.pending, (state) => {
         state.loading = true;
       })
@@ -168,6 +258,17 @@ export const userPatient = createSlice({
         state.user = action.payload;
       })
       .addCase(addSurgery.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteSurgery.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteSurgery.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(deleteSurgery.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

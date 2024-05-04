@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addInjury } from "../../features/userPatient/userPatientSlice";
+import { addInjury, deleteInjury } from "../../features/userPatient/userPatientSlice";
 
 function Injuries() {
   const [newInjury, setNewInjury] = useState("");
@@ -15,6 +15,10 @@ function Injuries() {
     e.preventDefault();
     dispatch(addInjury(newInjury));
     setNewInjury("");
+  };
+
+  const handleDelete = (injury) => {
+    dispatch(deleteInjury(injury));
   };
 
   console.log("newInjury", newInjury);
@@ -47,10 +51,9 @@ function Injuries() {
             >
               <span>{injury}</span>
               <div>
-                <button className="text-blue-500 hover:text-blue-700 mr-2">
-                  Edit
-                </button>
-                <button className="text-red-500 hover:text-red-700">
+                <button className="text-red-500 hover:text-red-700"
+                onClick={() => handleDelete(injury)}
+                >
                   Delete
                 </button>
               </div>

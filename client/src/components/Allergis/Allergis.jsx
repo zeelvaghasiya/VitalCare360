@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAllergy } from "../../features/userPatient/userPatientSlice";
+import { addAllergy, deleteAllergy } from "../../features/userPatient/userPatientSlice";
 
 function Allergis() {
   const [newAllergy, setNewAllergy] = useState("");
@@ -15,6 +15,10 @@ function Allergis() {
     e.preventDefault();
     dispatch(addAllergy(newAllergy));
     setNewAllergy("");
+  };
+
+  const handleDelete = (allergy) => {
+    dispatch(deleteAllergy(allergy));
   };
 
   console.log("newAllergy", newAllergy);
@@ -48,10 +52,9 @@ function Allergis() {
             >
               <span>{allergy}</span>
               <div>
-                <button className="text-blue-500 hover:text-blue-700 mr-2">
-                  Edit
-                </button>
-                <button className="text-red-500 hover:text-red-700">
+                <button className="text-red-500 hover:text-red-700"
+                onClick={() => handleDelete(allergy)}
+                >
                   Delete
                 </button>
               </div>

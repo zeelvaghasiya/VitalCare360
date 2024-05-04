@@ -286,6 +286,30 @@ const addAllergy = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updatedPatient, "Allergy added successfully"));
 });
 
+const deleteAllergy = async (req, res) => {
+  const { allergyName } = req.params;
+
+  try {
+    const patient = await Patient.findById(req.patient._id);
+
+    const index = patient.allergis.indexOf(allergyName);
+    if (index !== -1) {
+      patient.allergis.splice(index, 1);
+      const updatedPatient = await patient.save();
+
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(200, updatedPatient, "Allergy deleted successfully")
+        );
+    } else {
+      throw new ApiError(401, "allergy is not deleted successfully");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const addChronicDisease = asyncHandler(async (req, res) => {
   const { chronicDisease } = req.body;
 
@@ -305,6 +329,31 @@ const addChronicDisease = asyncHandler(async (req, res) => {
     );
 });
 
+const deleteChronicDisease = async (req, res) => {
+  const { chronicdiseaseName } = req.params;
+  console.log("dddd",chronicdiseaseName)
+
+  try {
+    const patient = await Patient.findById(req.patient._id);
+
+    const index = patient.chronicDisease.indexOf(chronicdiseaseName);
+    if (index !== -1) {
+      patient.chronicDisease.splice(index, 1);
+      const updatedPatient = await patient.save();
+
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(200, updatedPatient, "Allergy deleted successfully")
+        );
+    } else {
+      throw new ApiError(401, "allergy is not deleted successfully");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const addInjuries = asyncHandler(async (req, res) => {
   const { injury } = req.body;
 
@@ -322,6 +371,30 @@ const addInjuries = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updatedPatient, "Injury added successfully"));
 });
 
+const deleteInjuries = async (req, res) => {
+  const { injuryName } = req.params;
+
+  try {
+    const patient = await Patient.findById(req.patient._id);
+
+    const index = patient.injuries.indexOf(injuryName);
+    if (index !== -1) {
+      patient.injuries.splice(index, 1);
+      const updatedPatient = await patient.save();
+
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(200, updatedPatient, "Injury deleted successfully")
+        );
+    } else {
+      throw new ApiError(401, "Injury is not deleted successfully");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const addSurgeries = asyncHandler(async (req, res) => {
   const { surgery } = req.body;
 
@@ -338,6 +411,30 @@ const addSurgeries = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, updatedPatient, "Surgery added successfully"));
 });
+
+const deleteSurgeries = async (req, res) => {
+  const { surgeryName } = req.params;
+
+  try {
+    const patient = await Patient.findById(req.patient._id);
+
+    const index = patient.surgeries.indexOf(surgeryName);
+    if (index !== -1) {
+      patient.surgeries.splice(index, 1);
+      const updatedPatient = await patient.save();
+
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(200, updatedPatient, "Surgery deleted successfully")
+        );
+    } else {
+      throw new ApiError(401, "Surgery is not deleted successfully");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const uploadRecords = asyncHandler(async (req, res) => {
   if (!req.files) {
@@ -415,7 +512,7 @@ const deleteRecord = asyncHandler(async (req, res) => {
   );
 
   if (recordIndex === -1) {
-      throw new ApiError(400, "Medical record not found for this patient");
+    throw new ApiError(400, "Medical record not found for this patient");
   }
 
   patient.pastMedicalRecords.splice(recordIndex, 1);
@@ -440,9 +537,13 @@ export {
   getCurrentUser,
   updatePatientDetails,
   addAllergy,
+  deleteAllergy,
   addChronicDisease,
+  deleteChronicDisease,
   addInjuries,
+  deleteInjuries,
   addSurgeries,
+  deleteSurgeries,
   uploadRecords,
   getRecords,
   deleteRecord,

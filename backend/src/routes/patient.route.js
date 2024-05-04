@@ -7,9 +7,13 @@ import {
   getCurrentUser,
   updatePatientDetails,
   addAllergy,
+  deleteAllergy,
   addChronicDisease,
+  deleteChronicDisease,
   addInjuries,
+  deleteInjuries,
   addSurgeries,
+  deleteSurgeries,
   uploadRecords,
   getRecords,
   deleteRecord
@@ -37,9 +41,13 @@ router.route("/refresh-token").post(refreshAccessToken);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/update-user-info").put(verifyJWT, updatePatientDetails);
 router.route("/add-allergy").patch(verifyJWT, addAllergy);
+router.route("/delete-allergy/:allergyName").delete(verifyJWT, deleteAllergy);
 router.route("/add-chronicdisease").patch(verifyJWT, addChronicDisease);
+router.route("/delete-chronicdisease/:chronicdiseaseName").delete(verifyJWT, deleteChronicDisease);
 router.route("/add-injury").patch(verifyJWT, addInjuries);
+router.route("/delete-injury/:injuryName").delete(verifyJWT, deleteInjuries);
 router.route("/add-surgery").patch(verifyJWT, addSurgeries);
+router.route("/delete-surgery/:surgeryName").delete(verifyJWT, deleteSurgeries);
 router.route("/medical-records").get(verifyJWT, getRecords);
 router.route("/medical-records/:id").delete(verifyJWT,deleteRecord)
 router.route("/upload-record").post(

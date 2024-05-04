@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addSurgery } from "../../features/userPatient/userPatientSlice";
+import { addSurgery, deleteSurgery } from "../../features/userPatient/userPatientSlice";
 
 function Surgeries() {
   const [newSurgery, setNewSurgery] = useState("");
@@ -15,6 +15,10 @@ function Surgeries() {
     e.preventDefault();
     dispatch(addSurgery(newSurgery));
     setNewSurgery("");
+  };
+
+  const handleDelete = (surgery) => {
+    dispatch(deleteSurgery(surgery));
   };
 
   console.log("newSurgery", newSurgery);
@@ -47,10 +51,9 @@ function Surgeries() {
             >
               <span>{surgery}</span>
               <div>
-                <button className="text-blue-500 hover:text-blue-700 mr-2">
-                  Edit
-                </button>
-                <button className="text-red-500 hover:text-red-700">
+                <button className="text-red-500 hover:text-red-700"
+                onClick={() => handleDelete(surgery)}
+                >
                   Delete
                 </button>
               </div>

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addChronicdisease } from "../../features/userPatient/userPatientSlice";
+import { addChronicdisease, deleteChronicdisease } from "../../features/userPatient/userPatientSlice";
 
 function ChronicDisease() {
   const [newChronicDisease, setNewChronicDisease] = useState("");
@@ -15,6 +15,10 @@ function ChronicDisease() {
     e.preventDefault();
     dispatch(addChronicdisease(newChronicDisease));
     setNewChronicDisease("");
+  };
+
+  const handleDelete = (cDisease) => {
+    dispatch(deleteChronicdisease(cDisease));
   };
 
   console.log("newChronicDisease", newChronicDisease);
@@ -47,10 +51,9 @@ function ChronicDisease() {
             >
               <span>{cDisease}</span>
               <div>
-                <button className="text-blue-500 hover:text-blue-700 mr-2">
-                  Edit
-                </button>
-                <button className="text-red-500 hover:text-red-700">
+                <button className="text-red-500 hover:text-red-700"
+                onClick={() => handleDelete(cDisease)}
+                >
                   Delete
                 </button>
               </div>
