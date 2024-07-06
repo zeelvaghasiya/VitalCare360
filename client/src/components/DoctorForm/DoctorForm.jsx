@@ -3,38 +3,47 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { createDoctor } from "../../features/auth/authDoctor/authDoctorSlice";
 import { useDispatch } from "react-redux";
+import Message from "../Message/Message";
 
 function DoctorForm() {
   const [doctorData, setDoctorData] = useState({});
-  const navigate = useNavigate()
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const getDoctorData = (e) => {
-    setDoctorData({...doctorData, [e.target.name] : e.target.value})
-  }
+    setDoctorData({ ...doctorData, [e.target.name]: e.target.value });
+  };
 
   const handlePhoto = (e) => {
     // console.log("avatar ...",e.target.files[0])
     setDoctorData({ ...doctorData, avatar: e.target.files[0] });
   };
 
-  console.log("doctor data",doctorData);
+  console.log("doctor data", doctorData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      const response =await dispatch(createDoctor(doctorData));
-      console.log("response",response.payload.success)
+      const response = await dispatch(createDoctor(doctorData));
+      console.log("response", response.payload.success);
       if (response.payload.success) {
-        window.alert("Signup successful!")
-        navigate("/signin");
+        setSuccessMessage("Signup successful!");
+        setTimeout(() => {
+          setSuccessMessage(null);
+          navigate("/signin");
+        }, 3000);
       } else {
-        window.alert("An error occurred. Please try again later.")
+        setErrorMessage("An error occurred. Please try again later.");
+        setTimeout(() => setErrorMessage(null), 3000);
       }
     } catch (error) {
       console.error("Error:", error);
+      setErrorMessage("An error occurred. Please try again later.");
+      setTimeout(() => setErrorMessage(null), 3000);
     }
   };
 
@@ -46,6 +55,11 @@ function DoctorForm() {
           <h2 className="text-center text-2xl font-bold leading-tight text-blue-400">
             Doctor Enrollment Application
           </h2>
+          {successMessage ? (
+            <Message msg={successMessage} color="green" />
+          ) : (
+            errorMessage && <Message msg={errorMessage} color="red" />
+          )}
           <p className="mt-2 text-center text-sm text-gray-600">
             Already have an account?{" "}
             <Link

@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
+import Message from "../../Message/Message.jsx";
 
 function AddTimeSlot() {
   const [dayOfWeek, setDayOfWeek] = useState("");
   const [startTime, setStartTime] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,8 +19,15 @@ function AddTimeSlot() {
 
       setDayOfWeek("");
       setStartTime("");
+      setShowMessage(true);
+
+      setTimeout(() => {
+        setShowMessage(false);
+      }, 3000);
+
     } catch (error) {
       console.error("Error adding time slot:", error);
+      setShowMessage(false);
     }
   };
 
@@ -31,6 +40,7 @@ function AddTimeSlot() {
         <h2 className="text-lg text-center font-semibold mb-4">
           Create New Time Slot
         </h2>
+        {showMessage && <Message msg="Time slot added successfully!" color="green" />}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block mb-1">Day of Week:</label>

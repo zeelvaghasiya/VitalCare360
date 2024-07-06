@@ -15,7 +15,7 @@ const instance = new Razorpay({
 
 const generateMeetLink = async (patientRef, doctorRef, date, startTime) => {
   const sharedIdentifier = `${patientRef}-${doctorRef}`;
-  const meetLink = `https://meet.google.com/hks-tchs-inh`;
+  const meetLink = `https://meet.google.com/${sharedIdentifier}`;
   console.log("inside generateMeetLink",meetLink)
   return meetLink;
 };

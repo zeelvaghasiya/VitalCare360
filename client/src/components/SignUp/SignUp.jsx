@@ -3,12 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { createPatient } from "../../features/auth/authPatient/authPatientSlice.js";
+import Message from "../Message/Message.jsx";
 
 function SignUp() {
   const [userData, setUserData] = useState({});
   const [isDoctor, setIsDoctor] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const getUserData = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -24,16 +27,22 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response =await dispatch(createPatient(userData));
-      console.log("response",response.payload.success)
+      const response = await dispatch(createPatient(userData));
+      console.log("response", response.payload.success);
       if (response.payload.success) {
-        window.alert("Signup successful!")
-        navigate("/signin");
+        setSuccessMessage("Signup successful!");
+        setTimeout(() => {
+          setSuccessMessage(null);
+          navigate("/signin");
+        }, 3000);
       } else {
-        window.alert("An error occurred. Please try again later.")
+        setErrorMessage("An error occurred. Please try again later.");
+        setTimeout(() => setErrorMessage(null), 3000);
       }
     } catch (error) {
       console.error("Error:", error);
+      setErrorMessage("An error occurred. Please try again later.");
+      setTimeout(() => setErrorMessage(null), 3000);
     }
   };
 
@@ -45,6 +54,11 @@ function SignUp() {
           <h2 className="text-center text-2xl font-bold leading-tight text-blue-400">
             Sign up to create account
           </h2>
+          {successMessage ? (
+            <Message msg={successMessage} color="green" />
+          ) : (
+            errorMessage && <Message msg={errorMessage} color="red" />
+          )}
           <p className="mt-2 text-center text-sm text-gray-600">
             Already have an account?{" "}
             <Link

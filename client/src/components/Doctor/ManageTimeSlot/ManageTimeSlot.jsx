@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Message from "../../Message/Message.jsx";
 
 function ManageTimeSlot() {
   const [timeSlots, setTimeSlots] = useState({});
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     fetchTimeSlots();
@@ -31,10 +33,17 @@ function ManageTimeSlot() {
   const handleDelete = async (slotId) => {
     try {
       await axios.delete(`/api/v1/doctors/time-slots/${slotId}`);
+      setShowMessage(true);
+
+      setTimeout(() => {
+        setShowMessage(false);
+      }, 3000);
+
       // After successful deletion, refetch time slots
       fetchTimeSlots();
     } catch (error) {
       console.error("Error deleting time slot:", error);
+      setShowMessage(false);
     }
   };
 
@@ -44,6 +53,7 @@ function ManageTimeSlot() {
         <h2 className="text-xl text-center font-semibold mb-4">
           Manage Time Slots
         </h2>
+        {showMessage && <Message msg="Time slot deleted successfully!" color="green" />}
         <div>
           {timeSlots.length > 0 ? (
             <div>

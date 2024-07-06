@@ -4,9 +4,12 @@ import { ArrowRight } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { loginPatient } from "../../features/auth/authPatient/authPatientSlice";
 import { loginDoctor } from "../../features/auth/authDoctor/authDoctorSlice";
+import Message from "../Message/Message";
 
 function SignIn() {
   const [loginData, setLoginData] = useState({});
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,22 +24,29 @@ function SignIn() {
     e.preventDefault();
 
     try {
-      const isDoc = localStorage.getItem("isDoc")
-      const response = (isDoc === "true")
-        ? await dispatch(loginDoctor(loginData))
-        : await dispatch(loginPatient(loginData));
+      const isDoc = localStorage.getItem("isDoc");
+      const response =
+        isDoc === "true"
+          ? await dispatch(loginDoctor(loginData))
+          : await dispatch(loginPatient(loginData));
 
       if (response.payload.success) {
-        window.alert("Signin successful!");
-        navigate((isDoc === "true") ? "/doctor/add-timeslot" : "/patient/home");
+        setSuccessMessage("Login successful!");
+        setTimeout(() => {
+          setSuccessMessage(null);
+          navigate(isDoc === "true" ? "/doctor/add-timeslot" : "/patient/home");
+        }, 3000);
+
         if (isDoc === "true") {
           localStorage.removeItem("isDoc");
         }
       } else {
-        throw new Error("Login failed.");
+        setErrorMessage("Invalid username or password.");
+        setTimeout(() => setErrorMessage(null), 3000);
       }
     } catch (error) {
-      window.alert("An error occurred. Please try again later.");
+      setErrorMessage("An error occurred. Please try again later.");
+      setTimeout(() => setErrorMessage(null), 3000);
       console.error(error);
     }
   };
@@ -49,6 +59,11 @@ function SignIn() {
           <h2 className="text-center text-2xl font-bold leading-tight text-blue-400">
             Sign in to your account
           </h2>
+          {successMessage ? (
+            <Message msg={successMessage} color="green" />
+          ) : (
+            errorMessage && <Message msg={errorMessage} color="red" />
+          )}
           <p className="mt-2 text-center text-sm text-gray-600 ">
             Don&apos;t have an account?{" "}
             <Link
