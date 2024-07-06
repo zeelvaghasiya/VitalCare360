@@ -6,7 +6,7 @@ import {
   updateDoctorInfo,
 } from "../../../features/userDoctor/userDoctorSlice";
 import axios from "axios";
-import { ApiError } from "../../../../../backend/src/utils/ApiError";
+
 
 function DProfile() {
   const [doctorData, setDoctorData] = useState({});
